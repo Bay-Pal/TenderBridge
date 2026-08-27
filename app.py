@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 import subprocess
 import socket
 
-DEFAULT_PORT = 8080
+DEFAULT_PORT = 8090
 DASHBOARD_FILE = "leads_dashboard.html"
 
 

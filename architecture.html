@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TenderBridge — Platform Architecture & Executive Pitch Deck</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+    }
+    .navbar-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 1.4rem 0;
+      border-bottom: 3px solid #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar-hero mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <span class="fs-4 text-primary"><i class="fa-solid fa-bridge-water"></i></span>
+        <h1 class="h3 fw-bold mb-0">TenderBridge Intelligence</h1>
+        <span class="badge bg-warning text-dark ms-2 fw-bold">Executive Architecture Deck</span>
+      </div>
+      <a href="leads_dashboard.html" class="btn btn-primary btn-sm fw-bold px-3">
+        <i class="fa-solid fa-arrow-left me-1"></i> Return to Live Workstation
+      </a>
+    </div>
+  </header>
+  <main class="container mb-5">
+    
+    <div id="architectureView" class="mb-5">
+      
+      <!-- Section 1: Executive Pitch Hero Banner -->
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 text-white" style="background: linear-gradient(135deg, #090e17 0%, #172554 50%, #1e1b4b 100%);">
+        <div class="card-body p-4 p-lg-5">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-warning text-dark px-3 py-1 fw-bold"><i class="fa-solid fa-bolt-lightning me-1"></i> Executive Pitch & System Architecture</span>
+                <span class="badge bg-success-subtle text-success fw-bold px-3 py-1">Enterprise B2B Terminal</span>
+              </div>
+              <h2 class="display-6 fw-bold mb-3">TenderBridge Commercial Engine</h2>
+              <p class="fs-6 text-slate-300 mb-4 opacity-90 lh-base" style="max-width: 760px;">
+                The premier B2B deal-intelligence workstation and margin arbitrage engine connecting multi-million-dollar African public healthcare tenders with global medical OEM factories before manufacturing commitments lock.
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <button class="btn btn-primary fw-bold px-4 py-2 shadow" onclick="setViewMode('workstation')">
+                  <i class="fa-solid fa-desktop me-2"></i> Launch Live Workstation
+                </button>
+                <button class="btn btn-outline-light fw-semibold px-4 py-2" data-bs-toggle="modal" data-bs-target="#sourcesModal">
+                  <i class="fa-solid fa-database me-2 text-info"></i> Data Verification Registry
+                </button>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <div class="p-3 rounded-3 bg-white bg-opacity-10 border border-white border-opacity-10 backdrop-blur">
+                <div class="small text-uppercase text-slate-300 fw-bold mb-2">Validated Platform Footprint</div>
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-white border-opacity-10">
+                  <span class="small text-slate-200">Enriched Medical Leads</span>
+                  <span class="fw-bold text-white font-monospace">112 Distributors</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-white border-opacity-10">
+                  <span class="small text-slate-200">Primary Registries</span>
+                  <span class="fw-bold text-success font-monospace">5 Official Sources</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-white border-opacity-10">
+                  <span class="small text-slate-200">Average OEM Advantage</span>
+                  <span class="fw-bold text-warning font-monospace">15% – 25% CIF</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-2">
+                  <span class="small text-slate-200">Critical Sales Window</span>
+                  <span class="fw-bold text-danger font-monospace">Month 0 (16 Days)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: The African Healthcare Procurement Paradox -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="mb-3">
+          <span class="badge bg-danger-subtle text-danger fw-bold small text-uppercase" style="letter-spacing: 0.5px;">The Commercial Dilemma</span>
+          <h3 class="h4 fw-bold text-dark mt-1">The African Healthcare Paradox (The Middleman Dilemma)</h3>
+          <p class="text-secondary small mb-0">Why foreign OEMs fail when bidding directly, and how TenderBridge unlocks high-margin sub-contract supply deals.</p>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <!-- Pillar 1 -->
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-primary text-white p-2 rounded-circle"><i class="fa-solid fa-landmark"></i></span>
+                <h6 class="fw-bold text-dark mb-0">$500M+ Public Tenders</h6>
+              </div>
+              <p class="text-muted small mb-0 lh-base">
+                Central Medical Stores Trust (CMST), UNICEF, and Ministry health directorates gazette multi-million-dollar framework contracts annually. However, statutory citizen-empowerment laws require awards to go to locally registered distributor entities.
+              </p>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-warning text-dark p-2 rounded-circle"><i class="fa-solid fa-industry"></i></span>
+                <h6 class="fw-bold text-dark mb-0">Zero In-Country Factories</h6>
+              </div>
+              <p class="text-muted small mb-0 lh-base">
+                Local winning distributors operate regional warehouses and sales reps but own <strong>zero manufacturing plants</strong>. Bound by strict 60–90 day hospital delivery deadlines, they must urgently source finished medical supplies from overseas OEM factories in China, India, and the UAE.
+              </p>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 bg-success-subtle border border-success h-100">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-success text-white p-2 rounded-circle"><i class="fa-solid fa-bridge"></i></span>
+                <h6 class="fw-bold text-success mb-0">The TenderBridge Moat</h6>
+              </div>
+              <p class="text-dark small mb-0 lh-base">
+                Instead of global factories wasting capital attempting to directly bid against local laws, TenderBridge arms OEM sales executives to <strong>sub-contract to the winning local distributor</strong> during the critical 16-day pre-wire window, landing orders with 20% lower costs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: The 5-Stage Data Intelligence Pipeline (Visual Flow) -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <span class="badge bg-primary-subtle text-primary fw-bold small text-uppercase" style="letter-spacing: 0.5px;">Proprietary Technology Pipeline</span>
+            <h3 class="h4 fw-bold text-dark mt-1 mb-0">The 5-Stage Data Fusion Architecture</h3>
+          </div>
+          <span class="badge bg-primary text-white small px-3 py-2">Automated & Reactive</span>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <!-- Step 1 -->
+          <div class="col-md-2" style="flex: 0 0 20%; max-width: 20%;">
+            <div class="p-3 rounded-3 bg-light border h-100 text-center d-flex flex-column justify-content-between">
+              <div>
+                <div class="badge bg-dark rounded-pill px-3 py-1 mb-2">STEP 1</div>
+                <h6 class="fw-bold text-dark small mb-1">Statutory Scraping</h6>
+                <span class="badge bg-primary-subtle text-primary small mb-2">WHEN</span>
+                <p class="text-muted" style="font-size: 0.74rem; line-height: 1.35;">
+                  Automated scrapers ingest CMST gazettes, UNICEF supply disclosures & MANEPS portals daily.
+                </p>
+              </div>
+              <div class="font-monospace text-primary small fw-bold pt-2 border-top">Award Notice Trigger</div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="col-md-2" style="flex: 0 0 20%; max-width: 20%;">
+            <div class="p-3 rounded-3 bg-light border h-100 text-center d-flex flex-column justify-content-between">
+              <div>
+                <div class="badge bg-dark rounded-pill px-3 py-1 mb-2">STEP 2</div>
+                <h6 class="fw-bold text-dark small mb-1">Customs Manifests</h6>
+                <span class="badge bg-info-subtle text-info small mb-2">HOW</span>
+                <p class="text-muted" style="font-size: 0.74rem; line-height: 1.35;">
+                  Enriches company names with 8-digit HS codes, shipment counts, origins & clearance ports.
+                </p>
+              </div>
+              <div class="font-monospace text-info small fw-bold pt-2 border-top">Export Genius HS Fusion</div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="col-md-2" style="flex: 0 0 20%; max-width: 20%;">
+            <div class="p-3 rounded-3 bg-danger-subtle border border-danger h-100 text-center d-flex flex-column justify-content-between">
+              <div>
+                <div class="badge bg-danger rounded-pill px-3 py-1 mb-2 text-white">STEP 3</div>
+                <h6 class="fw-bold text-danger small mb-1">Month 0 Radar</h6>
+                <span class="badge bg-danger small mb-2 text-white">URGENCY</span>
+                <p class="text-dark" style="font-size: 0.74rem; line-height: 1.35;">
+                  Calculates the exact 16-day pre-wire window (Days 14–30) before 30% factory deposit leaves.
+                </p>
+              </div>
+              <div class="font-monospace text-danger small fw-bold pt-2 border-top">Supply Clock Countdown</div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="col-md-2" style="flex: 0 0 20%; max-width: 20%;">
+            <div class="p-3 rounded-3 bg-light border h-100 text-center d-flex flex-column justify-content-between">
+              <div>
+                <div class="badge bg-dark rounded-pill px-3 py-1 mb-2">STEP 4</div>
+                <h6 class="fw-bold text-dark small mb-1">Margin Arbitrage</h6>
+                <span class="badge bg-success-subtle text-success small mb-2">PROFIT</span>
+                <p class="text-muted" style="font-size: 0.74rem; line-height: 1.35;">
+                  Interactive live sliders calculate unit savings and distributor extra profit in $ USD.
+                </p>
+              </div>
+              <div class="font-monospace text-success small fw-bold pt-2 border-top">Reactive Math Engine</div>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="col-md-2" style="flex: 0 0 20%; max-width: 20%;">
+            <div class="p-3 rounded-3 bg-light border h-100 text-center d-flex flex-column justify-content-between">
+              <div>
+                <div class="badge bg-dark rounded-pill px-3 py-1 mb-2">STEP 5</div>
+                <h6 class="fw-bold text-dark small mb-1">1-Click Execution</h6>
+                <span class="badge bg-warning-subtle text-warning small mb-2">ACTION</span>
+                <p class="text-muted" style="font-size: 0.74rem; line-height: 1.35;">
+                  1-click WhatsApp pitch with CIF landed quote & 2-page executive due diligence PDF export.
+                </p>
+              </div>
+              <div class="font-monospace text-primary small fw-bold pt-2 border-top">WhatsApp & PDF Dossier</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Global Competitive Benchmark Matrix -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="mb-3">
+          <span class="badge bg-success-subtle text-success fw-bold small text-uppercase" style="letter-spacing: 0.5px;">Competitive Positioning</span>
+          <h3 class="h4 fw-bold text-dark mt-1">Global Intelligence Benchmark: TenderBridge vs The Industry</h3>
+          <p class="text-secondary small mb-0">Why legacy platforms fail B2B sales teams and how TenderBridge delivers actionable revenue.</p>
+        </div>
+
+        <div class="table-responsive mb-3">
+          <table class="table table-bordered align-middle mb-0 small">
+            <thead class="table-dark">
+              <tr>
+                <th style="width: 22%;">Feature / Intelligence Layer</th>
+                <th style="width: 26%;" class="bg-primary text-white text-center">TenderBridge Intelligence</th>
+                <th style="width: 17%;" class="text-center">Devex ($3.5k/yr)</th>
+                <th style="width: 17%;" class="text-center">Export Genius ($3k/yr)</th>
+                <th style="width: 18%;" class="text-center">TenderAlpha ($10k/yr)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold text-dark">Primary Focus</td>
+                <td class="bg-primary-subtle text-primary fw-bold text-center">OEM Medical Sales Execution</td>
+                <td class="text-center text-muted">NGO / Multilateral Aid</td>
+                <td class="text-center text-muted">Customs Manifests Only</td>
+                <td class="text-center text-muted">Public Stock Analysts</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Statutory Local Awards (CMST, MoH)</td>
+                <td class="bg-primary-subtle text-success fw-bold text-center"><i class="fa-solid fa-circle-check text-success me-1"></i> Yes (105+ Verified)</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No (Donors only)</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Customs Bills of Lading (HS Codes & Ports)</td>
+                <td class="bg-primary-subtle text-success fw-bold text-center"><i class="fa-solid fa-circle-check text-success me-1"></i> Yes (8-Digit Level)</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-success"><i class="fa-solid fa-circle-check text-success me-1"></i> Yes</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Data Directionality</td>
+                <td class="bg-primary-subtle text-primary fw-bold text-center">Real-Time Trigger Fusion</td>
+                <td class="text-center text-muted">Forward Pipelines</td>
+                <td class="text-center text-danger">Strictly Backward-Looking</td>
+                <td class="text-center text-muted">Backward-Looking</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Month 0 Supply Countdown (Urgency)</td>
+                <td class="bg-primary-subtle text-success fw-bold text-center"><i class="fa-solid fa-circle-check text-success me-1"></i> Yes (Days 14–30 Window)</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">Interactive Margin & Arbitrage Engine</td>
+                <td class="bg-primary-subtle text-success fw-bold text-center"><i class="fa-solid fa-circle-check text-success me-1"></i> Yes (Live Reactive Sliders)</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-dark">1-Click Direct Outreach (WhatsApp / PDF)</td>
+                <td class="bg-primary-subtle text-success fw-bold text-center"><i class="fa-solid fa-circle-check text-success me-1"></i> Yes (Custom CIF Pitch)</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+                <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark me-1"></i> No</td>
+              </tr>
+              <tr class="table-light">
+                <td class="fw-bold text-dark">Annual Platform Cost</td>
+                <td class="bg-primary text-white fw-bold text-center fs-6">$0 (Internal Engine)</td>
+                <td class="text-center text-muted font-monospace">$3,500 – $10,000</td>
+                <td class="text-center text-muted font-monospace">$2,000 – $6,000</td>
+                <td class="text-center text-muted font-monospace">$5,000 – $25,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 5: The 4 Golden Rules of African Medical Sub-Contracting -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="mb-3">
+          <span class="badge bg-info-subtle text-info fw-bold small text-uppercase" style="letter-spacing: 0.5px;">Sales Playbook</span>
+          <h3 class="h4 fw-bold text-dark mt-1">The 4 Golden Rules of African Medical Sub-Contracting</h3>
+          <p class="text-secondary small mb-0">The commercial guidelines that drive 80%+ reply rates when pitching winning distributors.</p>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="fw-bold text-primary mb-1 small">RULE 1</div>
+              <h6 class="fw-bold text-dark mb-2">Never Bid Directly</h6>
+              <p class="text-muted small mb-0 lh-base">
+                Local procurement acts legally favor domestic citizen-owned entities. Partner with the winner rather than spending \$20k+ on foreign bid securities.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="fw-bold text-danger mb-1 small">RULE 2</div>
+              <h6 class="fw-bold text-dark mb-2">Strike in Month 0</h6>
+              <p class="text-muted small mb-0 lh-base">
+                Between Day 14 and Day 30, distributors are choosing factories before wiring their 30% advance deposit. Once the wire clears, the deal is locked.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="fw-bold text-success mb-1 small">RULE 3</div>
+              <h6 class="fw-bold text-dark mb-2">Always Quote CIF Border</h6>
+              <p class="text-muted small mb-0 lh-base">
+                Distributors dislike navigating ocean and rail freight tariffs. Quote CIF Songwe or CIF Mwanza Border so their landed unit cost is crystal clear.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="fw-bold text-warning mb-1 small">RULE 4</div>
+              <h6 class="fw-bold text-dark mb-2">Match 8-Digit HS Codes</h6>
+              <p class="text-muted small mb-0 lh-base">
+                African customs authorities aggressively inspect tariff codes. Matching their exact historical HS lines (e.g. 9018.39.00) ensures zero clearance hold-ups.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: Maritime & Overland Trade Logistics Corridors -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="mb-3">
+          <span class="badge bg-warning-subtle text-warning fw-bold small text-uppercase" style="letter-spacing: 0.5px;">Physical Logistics Reality</span>
+          <h3 class="h4 fw-bold text-dark mt-1">Maritime & Overland Clearance Corridors to Landlocked Malawi</h3>
+          <p class="text-secondary small mb-0">Why ocean shipping + overland haulage necessitates the strict 30-day "Month 0" factory deposit window.</p>
+        </div>
+
+        <div class="row g-3">
+          <!-- Corridor A -->
+          <div class="col-md-6">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-primary text-white fw-bold">Northern Corridor (Dar es Salaam)</span>
+                <span class="badge bg-info-subtle text-info small">58% Central Malawi Inflow</span>
+              </div>
+              <p class="text-dark small mb-2 lh-base">
+                <strong>Route:</strong> Ocean freight from Ningbo/Shanghai ➔ Port of Dar es Salaam (Tanzania) ➔ TanZam rail/road ➔ <strong>Songwe Border Post (Kasumulu)</strong> ➔ Lilongwe central depots.
+              </p>
+              <div class="small text-muted border-top pt-2">
+                • <strong>Transit Time:</strong> 22 days sea + 10 days port dwell + 6 days trucking = <strong>38–48 Days</strong><br/>
+                • <strong>Typical Cargo:</strong> Chinese hospital furniture, CE-certified IV cannulas, PPE.
+              </div>
+            </div>
+          </div>
+
+          <!-- Corridor B -->
+          <div class="col-md-6">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-success text-white fw-bold">Southern Corridor (Port of Beira)</span>
+                <span class="badge bg-success-subtle text-success small">52% Southern Region Inflow</span>
+              </div>
+              <p class="text-dark small mb-2 lh-base">
+                <strong>Route:</strong> Ocean freight from Nhava Sheva (India) / Durban ➔ Port of Beira (Mozambique) ➔ Tete corridor ➔ <strong>Mwanza Border Post</strong> ➔ Blantyre referral hospitals.
+              </p>
+              <div class="small text-muted border-top pt-2">
+                • <strong>Transit Time:</strong> 18 days sea + 8 days port dwell + 4 days trucking = <strong>30–42 Days</strong><br/>
+                • <strong>Typical Cargo:</strong> Indian generic formulations, antibiotics, surgical suture packs.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 7: Objection Handling Playbook for OEM Sales Reps -->
+      <div class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+        <div class="mb-3">
+          <span class="badge bg-secondary-subtle text-secondary fw-bold small text-uppercase" style="letter-spacing: 0.5px;">Closing Strategy</span>
+          <h3 class="h4 fw-bold text-dark mt-1">Objection Handling Playbook for Pitching African Distributors</h3>
+          <p class="text-secondary small mb-0">How TenderBridge's intelligence arms your reps to neutralize common procurement hesitations.</p>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <h6 class="fw-bold text-danger mb-2 small"><i class="fa-solid fa-circle-xmark me-1"></i> "We already have a supplier in India/China"</h6>
+              <div class="small text-dark font-sans-serif mb-2">
+                <strong>TenderBridge Counter:</strong>
+              </div>
+              <p class="text-muted small mb-0 lh-base">
+                "We respect your existing partner. However, on this specific tender lot, our direct factory cost eliminates intermediary agent markups, landing at 21% lower CIF ($0.22 vs $0.28). On your 200,000 unit volume, that puts an extra +$12,000 USD net profit directly into your contract margin. Can we courier a certified sample box to your Lilongwe office?"
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <h6 class="fw-bold text-danger mb-2 small"><i class="fa-solid fa-circle-xmark me-1"></i> "Will switching factories cause a delivery delay?"</h6>
+              <div class="small text-dark font-sans-serif mb-2">
+                <strong>TenderBridge Counter:</strong>
+              </div>
+              <p class="text-muted small mb-0 lh-base">
+                "Not at all. Because we are at Day 18 of your Month 0 window, our production line is pre-allocated. We ship via express container liner to Dar es Salaam with pre-cleared T1 transit bonds to Songwe Border, landing within 38 days—well within your 90-day CMST penalty deadline."
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 rounded-3 bg-light border h-100">
+              <h6 class="fw-bold text-danger mb-2 small"><i class="fa-solid fa-circle-xmark me-1"></i> "Is your factory PMRA / CE certified?"</h6>
+              <div class="small text-dark font-sans-serif mb-2">
+                <strong>TenderBridge Counter:</strong>
+              </div>
+              <p class="text-muted small mb-0 lh-base">
+                "Yes, 100%. All our medical devices hold ISO 13485 and European CE certificates, and our pharmaceuticals comply with WHO Good Manufacturing Practice (GMP). This qualifies our technical dossiers for expedited recognition under Malawi PMRA regulations."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Footer -->
+      <div class="text-center py-4">
+        <h4 class="h5 fw-bold text-dark mb-2">Ready to explore active live distributor deals?</h4>
+        <p class="text-muted small mb-3">Jump right into the interactive 40/60 split-pane workstation.</p>
+        <button class="btn btn-primary btn-lg fw-bold px-4 py-2 shadow" onclick="setViewMode('workstation')">
+          <i class="fa-solid fa-desktop me-2"></i> Launch Deal Workstation Now
+        </button>
+      </div>
+
+    </div>
+    
+  </main>
+  
+  <div class="modal fade" id="sourcesModal" tabindex="-1" aria-labelledby="sourcesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        <div class="modal-header bg-dark text-white py-3 px-4">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge bg-primary px-2">Primary Procurement Pipeline</span>
+              <span class="badge bg-success px-2"><i class="fa-solid fa-shield-check me-1"></i> 100% Verified Records</span>
+            </div>
+            <h5 class="modal-title h5 fw-bold mb-0 text-white" id="sourcesModalLabel">
+              <i class="fa-solid fa-database text-info me-2"></i> Verified Data Sources & Intelligence Architecture
+            </h5>
+            <span class="small text-slate-300 opacity-75">Cross-referenced across 5 official government, donor, and customs trade registries</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4 bg-light">
+          
+          <!-- Source 1: CMST Malawi -->
+          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 bg-white border-start border-primary border-4">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary-subtle text-primary fw-bold"><i class="fa-solid fa-hospital me-1"></i> National Health Stores</span>
+                <h6 class="fw-bold text-dark mb-0">Central Medical Stores Trust (CMST Malawi)</h6>
+              </div>
+              <span class="badge bg-success small">105 Verified Contracts</span>
+            </div>
+            <p class="text-secondary small mb-2 lh-base">
+              The primary state procurement authority supplying all 28 district hospitals and tertiary referral facilities nationwide. Captures gazetted framework awards for essential pharmaceuticals, IV fluid giving sets, infusion consumables, and surgical dressings.
+            </p>
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
+              <span class="text-muted font-monospace"><i class="fa-solid fa-link me-1"></i> http://www.cmst.mw/index.php/publications/contracts-awards</span>
+              <span class="text-primary fw-semibold">Live HTTP Scraper</span>
+            </div>
+          </div>
+
+          <!-- Source 2: UNICEF Supply Division -->
+          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 bg-white border-start border-success border-4">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-success-subtle text-success fw-bold"><i class="fa-solid fa-globe me-1"></i> Multilateral Donor</span>
+                <h6 class="fw-bold text-dark mb-0">UNICEF Supply Division (Global & Regional Hubs)</h6>
+              </div>
+              <span class="badge bg-success small">$3.14M+ Ingested</span>
+            </div>
+            <p class="text-secondary small mb-2 lh-base">
+              International humanitarian health procurement awards published by the United Nations Supply Division. Ingests verified commercial supply contracts for maternal and child healthcare, urological consumables, emergency clinical response kits, and essential medicines.
+            </p>
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
+              <span class="text-muted font-monospace"><i class="fa-solid fa-link me-1"></i> https://www.unicef.org/supply/contract-awards</span>
+              <span class="text-success fw-semibold">UN Disclosures</span>
+            </div>
+          </div>
+
+          <!-- Source 3: Ministry of Health & PPDA -->
+          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 bg-white border-start border-warning border-4">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning-subtle text-warning fw-bold"><i class="fa-solid fa-landmark me-1"></i> Statutory Gazette</span>
+                <h6 class="fw-bold text-dark mb-0">Ministry of Health & PPDA Malawi</h6>
+              </div>
+              <span class="badge bg-warning small">Hospital Infrastructure</span>
+            </div>
+            <p class="text-secondary small mb-2 lh-base">
+              Statutory contract award notices published in compliance with the Public Procurement and Disposal of Public Assets (PPDA) Act. Captures major public hospital infrastructure, diagnostic imaging systems, surgical theatre furnishings, and specialized clinical capital equipment tenders.
+            </p>
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
+              <span class="text-muted font-monospace"><i class="fa-solid fa-file-pdf me-1"></i> Gazette Notices & Ministry Bulletins</span>
+              <span class="text-warning fw-semibold">PPDA Act Statutory Notices</span>
+            </div>
+          </div>
+
+          <!-- Source 4: Export Genius Trade Intelligence -->
+          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 bg-white border-start border-info border-4">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-info-subtle text-info fw-bold"><i class="fa-solid fa-ship me-1"></i> Customs Manifests</span>
+                <h6 class="fw-bold text-dark mb-0">Customs Declarations & Bills of Lading Network</h6>
+              </div>
+              <span class="badge bg-info small">8-Digit HS Codes</span>
+            </div>
+            <p class="text-secondary small mb-2 lh-base">
+              Cross-referenced against verified customs bills of lading and import declaration logs. Details exact 8-digit tariff classifications, line-by-line customs shipments, recurring procurement cycles, country-of-origin distribution shares, and primary overland border and air cargo clearance ports.
+            </p>
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
+              <span class="text-muted font-monospace"><i class="fa-solid fa-barcode me-1"></i> HS 9018, 3004, 3005, 9402 Trade Records</span>
+              <span class="text-info fw-semibold">Customs Manifest Stream</span>
+            </div>
+          </div>
+
+          <!-- Source 5: PMRA Licensing -->
+          <div class="card p-3 border-0 shadow-sm rounded-3 bg-white border-start border-secondary border-4">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-secondary-subtle text-secondary fw-bold"><i class="fa-solid fa-id-card me-1"></i> Regulatory Registry</span>
+                <h6 class="fw-bold text-dark mb-0">Pharmacy and Medicines Regulatory Authority (PMRA)</h6>
+              </div>
+              <span class="badge bg-secondary small">Premise Licensing</span>
+            </div>
+            <p class="text-secondary small mb-0 lh-base">
+              Directly validated against the national statutory register of licensed pharmaceutical premises and authorized medical device wholesale distributors to ensure corporate operating status, commercial authenticity, and registered headquarters verification.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="modal-footer bg-white py-2 px-4 justify-content-between">
+          <span class="small text-muted font-monospace"><i class="fa-solid fa-lock text-success me-1"></i> Commercial-Grade B2B Lead Verification</span>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function setViewMode(m) {
+      window.location.href = 'leads_dashboard.html';
+    }
+  </script>
+</body>
+</html>
