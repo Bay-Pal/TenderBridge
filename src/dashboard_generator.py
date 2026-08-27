@@ -553,13 +553,13 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 bg-white border-start border-primary border-4">
             <div class="d-flex justify-content-between align-items-start mb-1">
               <div class="d-flex align-items-center gap-2">
-                <span class="badge bg-primary-subtle text-primary fw-bold"><i class="fa-solid fa-hospital me-1"></i> National Health Store</span>
+                <span class="badge bg-primary-subtle text-primary fw-bold"><i class="fa-solid fa-hospital me-1"></i> National Health Stores</span>
                 <h6 class="fw-bold text-dark mb-0">Central Medical Stores Trust (CMST Malawi)</h6>
               </div>
               <span class="badge bg-success small">105 Verified Contracts</span>
             </div>
             <p class="text-secondary small mb-2 lh-base">
-              The primary state procurement entity supplying all 28 district hospitals and 4 central hospital referral centers. TenderBridge scrapes official contract award publications under Tender <code>CMST/G/MMS/023</code> and national medical bulletins.
+              The primary state procurement authority supplying all 28 district hospitals and tertiary referral facilities nationwide. Captures gazetted framework awards for essential pharmaceuticals, IV fluid giving sets, infusion consumables, and surgical dressings.
             </p>
             <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
               <span class="text-muted font-monospace"><i class="fa-solid fa-link me-1"></i> http://www.cmst.mw/index.php/publications/contracts-awards</span>
@@ -572,12 +572,12 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             <div class="d-flex justify-content-between align-items-start mb-1">
               <div class="d-flex align-items-center gap-2">
                 <span class="badge bg-success-subtle text-success fw-bold"><i class="fa-solid fa-globe me-1"></i> Multilateral Donor</span>
-                <h6 class="fw-bold text-dark mb-0">UNICEF Supply Division (Copenhagen & Regional)</h6>
+                <h6 class="fw-bold text-dark mb-0">UNICEF Supply Division (Global & Regional Hubs)</h6>
               </div>
               <span class="badge bg-success small">$3.14M+ Ingested</span>
             </div>
             <p class="text-secondary small mb-2 lh-base">
-              Official international humanitarian supply contract awards disclosed by the UN Supply Division. Ingests verified commercial supplier contracts including <strong>Mohammed Moshin RMS Distributors ($284,893 USD)</strong>, Opco Limited ($487,271 USD), and regional suppliers.
+              International humanitarian health procurement awards published by the United Nations Supply Division. Ingests verified commercial supply contracts for maternal and child healthcare, urological consumables, emergency clinical response kits, and essential medicines.
             </p>
             <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
               <span class="text-muted font-monospace"><i class="fa-solid fa-link me-1"></i> https://www.unicef.org/supply/contract-awards</span>
@@ -595,7 +595,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
               <span class="badge bg-warning small">Hospital Infrastructure</span>
             </div>
             <p class="text-secondary small mb-2 lh-base">
-              Official government tender award notices published in compliance with the Public Procurement and Disposal of Public Assets (PPDA) Act 2017. Captures high-capital equipment contracts such as the Joint Venture between Opco Limited and Qingdao Medimount (China) for hospital ward beds ($1.86M USD).
+              Statutory contract award notices published in compliance with the Public Procurement and Disposal of Public Assets (PPDA) Act. Captures major public hospital infrastructure, diagnostic imaging systems, surgical theatre furnishings, and specialized clinical capital equipment tenders.
             </p>
             <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
               <span class="text-muted font-monospace"><i class="fa-solid fa-file-pdf me-1"></i> Gazette Notices & Ministry Bulletins</span>
@@ -608,12 +608,12 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             <div class="d-flex justify-content-between align-items-start mb-1">
               <div class="d-flex align-items-center gap-2">
                 <span class="badge bg-info-subtle text-info fw-bold"><i class="fa-solid fa-ship me-1"></i> Customs Manifests</span>
-                <h6 class="fw-bold text-dark mb-0">Export Genius Customs & Bills of Lading Stream</h6>
+                <h6 class="fw-bold text-dark mb-0">Customs Declarations & Bills of Lading Network</h6>
               </div>
               <span class="badge bg-info small">8-Digit HS Codes</span>
             </div>
             <p class="text-secondary small mb-2 lh-base">
-              Extracted from verified bills of lading, customs declarations, and Next.js SSR metadata payloads. Provides unmasked annual import turnover, line-by-line customs shipments (unit counts, USD values), 8-digit tariff classifications, and border entry logistics (Songwe, Kamuzu Airport, Dedza, Mwanza).
+              Cross-referenced against verified customs bills of lading and import declaration logs. Details exact 8-digit tariff classifications, line-by-line customs shipments, recurring procurement cycles, country-of-origin distribution shares, and primary overland border and air cargo clearance ports.
             </p>
             <div class="d-flex align-items-center justify-content-between pt-2 border-top small">
               <span class="text-muted font-monospace"><i class="fa-solid fa-barcode me-1"></i> HS 9018, 3004, 3005, 9402 Trade Records</span>
@@ -631,7 +631,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
               <span class="badge bg-secondary small">Premise Licensing</span>
             </div>
             <p class="text-secondary small mb-0 lh-base">
-              Cross-checked against the national statutory register of licensed pharmaceutical and medical device wholesale premises in Lilongwe, Blantyre, and Zomba to verify corporate legitimacy and distributor operating addresses.
+              Directly validated against the national statutory register of licensed pharmaceutical premises and authorized medical device wholesale distributors to ensure corporate operating status, commercial authenticity, and registered headquarters verification.
             </p>
           </div>
 
