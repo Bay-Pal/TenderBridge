@@ -181,7 +181,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
              data-category="{category_tag}"
              data-urgency="{urgency_level}"
              data-search="{comp.lower()} {items.lower()} {hs_codes.lower()} {source.lower()}"
-             onclick="selectLead({i})">
+             onclick="selectLead({i}, true)">
           <div class="d-flex justify-content-between align-items-center mb-1">
             <span class="badge {badge_cls} px-2 py-1" style="font-size: 0.7rem;"><i class="fa-solid {badge_icon} me-1"></i> {badge_text}</span>
             <span class="badge {pulse_badge} px-2 py-1 small fw-bold cursor-pointer" onclick="showTimingCalculation(event, {i})" title="Click to view Month 0 timing & mathematical calculation">{status_tag} <i class="fa-solid fa-circle-question ms-1" style="font-size: 0.65rem;"></i></span>
@@ -1755,7 +1755,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Embedded client data for all leads
-    const LEADS_DATA = __LEADS_DATA_PLACEHOLDER__;
+    window.LEADS_DATA = __LEADS_DATA_PLACEHOLDER__;
+    const LEADS_DATA = window.LEADS_DATA;
     let activeLeadIndex = 0;
     let activeCategory = 'all';
     let currentUnits = 200000;
@@ -1784,12 +1785,19 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
     }}
 
     // ─── WORKSTATION DEAL ROOM RENDERER ──────────────────────────────────────
-    function selectLead(idx) {{
+    function selectLead(idx, isUserClick = false) {{
       activeLeadIndex = idx;
       document.querySelectorAll('.lead-radar-item').forEach(c => c.classList.remove('active'));
       const card = document.getElementById('radarItem' + idx);
       if (card) card.classList.add('active');
       renderDealRoom(idx);
+
+      if (isUserClick && window.innerWidth <= 768) {{
+        const dealRoom = document.getElementById('dealRoomCard');
+        if (dealRoom) {{
+          dealRoom.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+        }}
+      }}
     }}
 
     function renderDealRoom(idx) {{
@@ -2385,6 +2393,14 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       color: white;
       padding: 1.4rem 0;
       border-bottom: 3px solid #3b82f6;
+    }}
+    @media (max-width: 768px) {{
+      .navbar-hero {{ padding: 0.85rem 0; }}
+      .navbar-hero .container {{ flex-direction: column !important; align-items: flex-start !important; gap: 0.6rem; }}
+      .navbar-hero h1 {{ font-size: 1.1rem !important; }}
+      .display-6 {{ font-size: 1.3rem !important; }}
+      .table-responsive {{ -webkit-overflow-scrolling: touch; }}
+      .modal-dialog {{ margin: 0.4rem; max-width: calc(100vw - 0.8rem) !important; }}
     }}
   </style>
 </head>
