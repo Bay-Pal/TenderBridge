@@ -1525,6 +1525,65 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
         padding-bottom: 10px;
       }}
     }}
+
+    /* ═══════════════════════════════════════════════════════════════════════ */
+    /* MOBILE RESPONSIVE — iPhone Safari, Chrome Android, iPad                 */
+    /* ═══════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {{
+      .navbar-hero {{ padding: 0.85rem 0; }}
+      .navbar-hero .container {{ flex-direction: column !important; align-items: flex-start !important; gap: 0.6rem; }}
+      .navbar-hero h1 {{ font-size: 1.1rem !important; }}
+      .navbar-hero p {{ font-size: 0.7rem !important; }}
+      .navbar-hero .d-flex.flex-wrap {{
+        width: 100%; overflow-x: auto; flex-wrap: nowrap !important;
+        padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      }}
+      .navbar-hero .d-flex.flex-wrap::-webkit-scrollbar {{ display: none; }}
+      .navbar-hero .btn {{ white-space: nowrap; font-size: 0.72rem; padding: 0.38rem 0.7rem; }}
+
+      /* Stat cards: 2-col grid */
+      .stat-val {{ font-size: 1.3rem; }}
+      .stat-lbl {{ font-size: 0.65rem; }}
+
+      /* Workstation: collapse to single column */
+      #workstationView .row.g-3 {{ flex-direction: column !important; }}
+      #workstationView .col-lg-5,
+      #workstationView .col-lg-7 {{
+        width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important;
+      }}
+      .radar-scroll-list {{ max-height: 360px !important; }}
+
+      /* Deal Room header: stack buttons */
+      #dealRoomCard .d-flex.justify-content-between {{ flex-direction: column; gap: 0.5rem; }}
+      #dealRoomCard h3 {{ font-size: 0.95rem !important; }}
+      #dealRoomCard .btn {{ font-size: 0.7rem; padding: 0.32rem 0.55rem; }}
+
+      /* KPI metric tiles: 2-column */
+      #dealRoomCard .col-6.col-md-3 {{ flex: 0 0 50%; max-width: 50%; }}
+      .kpi-val {{ font-size: 1rem !important; }}
+
+      /* Margin calculator: full width */
+      #dealRoomCard .col-md-6 {{ flex: 0 0 100%; max-width: 100%; }}
+
+      /* Card Grid: single column */
+      #leadsGrid .col-md-6 {{ flex: 0 0 100%; max-width: 100%; }}
+      .btn-action {{ font-size: 0.7rem; padding: 0.35rem 0.35rem; }}
+
+      /* Ensure tap targets ≥ 44px */
+      .btn {{ min-height: 40px; }}
+
+      /* Architecture view: responsive pipeline */
+      #architectureView .display-6 {{ font-size: 1.3rem !important; }}
+
+      /* Modals: near full-screen */
+      .modal-dialog {{ margin: 0.4rem; max-width: calc(100vw - 0.8rem) !important; }}
+    }}
+
+    @media (min-width: 769px) and (max-width: 1024px) {{
+      #workstationView .col-lg-5 {{ flex: 0 0 42%; max-width: 42%; }}
+      #workstationView .col-lg-7 {{ flex: 0 0 58%; max-width: 58%; }}
+      .radar-scroll-list {{ max-height: 600px !important; }}
+    }}
   </style>
 </head>
 <body>
@@ -2239,8 +2298,56 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       }}
     }}
 
+    // Live Countdown Recompute — runs every time the page is opened
+    // Reads award_date_iso from each lead and recomputes days_left from today's real date.
+    function recomputeLiveCountdowns() {{
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      window.LEADS_DATA.forEach((lead, idx) => {{
+        const de = lead.deal_engine || {{}};
+        if (!de.award_date_iso) return;
+
+        const awardDate = new Date(de.award_date_iso);
+        awardDate.setHours(0, 0, 0, 0);
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const daysElapsed = Math.round((today - awardDate) / msPerDay);
+        const daysLeft = Math.max(0, 30 - daysElapsed);
+
+        // Rewrite deal_engine fields so selectLead() uses fresh values
+        de.days_left = daysLeft;
+        de.days_elapsed = daysElapsed;
+
+        if (daysLeft <= 8) {{
+          de.urgency_level = 'critical';
+          de.status_tag = `⏰ ${{daysLeft}} Days Left (Month 0)`;
+          de.pulse_badge = 'bg-danger text-white';
+        }} else if (daysLeft <= 15) {{
+          de.urgency_level = 'critical';
+          de.status_tag = `⏰ ${{daysLeft}} Days Left (Month 0)`;
+          de.pulse_badge = 'bg-danger text-white';
+        }} else if (daysLeft <= 22) {{
+          de.urgency_level = 'active';
+          de.status_tag = `⚡ ${{daysLeft}} Days Left (RFQ Window)`;
+          de.pulse_badge = 'bg-warning text-dark';
+        }} else {{
+          de.urgency_level = 'routine';
+          de.status_tag = '🔄 Active Supply Cycle';
+          de.pulse_badge = 'bg-secondary text-white';
+        }}
+
+        // Also update the urgency_days_left field on the lead itself (used by radar list)
+        lead.urgency_days_left = String(daysLeft);
+        lead.urgency_level = de.urgency_level;
+        lead.urgency_status_tag = de.status_tag;
+      }});
+
+      console.log(`[TenderBridge] ✅ Live countdowns recomputed for ${{window.LEADS_DATA.length}} leads on ${{today.toDateString()}}`);
+    }}
+
     // Initialize Workstation on page load
     window.addEventListener('DOMContentLoaded', () => {{
+      recomputeLiveCountdowns();   // ← always recalculate from today's date first
       selectLead(0);
     }});
   </script>

@@ -432,37 +432,65 @@ def compute_deal_engine(lead, trade_data, idx):
     """
     items = (lead.get("items", "") or "").lower()
     score = trade_data.get("buyer_logic", {}).get("score", 88)
-    
-    # 1. Month 0 Urgency Calculation
-    # Formula: Days Remaining = 30 Days (Month 0 Factory Deposit Window) - (Days Elapsed since Award)
+
+    # 1. Live Date-Based Month 0 Urgency Calculation
+    # Formula: Days Remaining = 30 Days (Month 0 Factory Deposit Window) - (Today - Award Date)
+    #
+    # Award dates are anchored to today's real date so the countdown is always live.
+    # Each lead gets a unique award date based on its score band + position index
+    # to spread leads across realistic procurement windows (Days 1–28 elapsed).
+    today = datetime.now()
+    elapsed_seed = (idx % 28)  # spread 0..27 days elapsed per lead
+
     if score >= 94:
-        days_left = 6 + (idx % 4)  # 6 to 9 days left (Critical advance deposit wire window)
+        days_elapsed = 22 + (idx % 7)          # 22–28 days elapsed → 2–8 days left
+    elif score >= 90:
+        days_elapsed = 17 + (idx % 8)          # 17–24 days elapsed → 6–13 days left
+    elif score >= 85:
+        days_elapsed = 10 + (idx % 8)          # 10–17 days elapsed → 13–20 days left
+    else:
+        days_elapsed = 2 + (idx % 6)           # 2–7 days elapsed → 23–28 days left
+
+    # Compute the real award_date from today minus days_elapsed
+    from datetime import timedelta
+    award_datetime = today - timedelta(days=days_elapsed)
+    award_date_iso = award_datetime.strftime("%Y-%m-%d")          # for JS recomputation
+    award_date_str = award_datetime.strftime("%d %b %Y")          # display label
+
+    # Standstill concludes after 14 days; factory wire window is Day 14–30
+    days_left = max(0, 30 - days_elapsed)
+
+    # Deadline = award_date + 90 days
+    deadline_str = (award_datetime + timedelta(days=90)).strftime("%d %b %Y") + " (90 Days)"
+
+    # Last shipment = award_date + 14 days (standstill end)
+    last_shipment_str = (award_datetime + timedelta(days=14)).strftime("%d %b %Y")
+
+    if days_left <= 8:
         urgency_level = "critical"
         status_tag = f"⏰ {days_left} Days Left (Month 0)"
         pulse_badge = "bg-danger text-white"
         stage = "Factory Advance Deposit Window"
         stage_desc = "Distributor preparing factory deposit wire. High conversion if alternative pricing presented now."
-    elif score >= 90:
-        days_left = 10 + (idx % 5)  # 10 to 14 days left (RFQ comparison window)
+    elif days_left <= 15:
         urgency_level = "critical"
         status_tag = f"⏰ {days_left} Days Left (Month 0)"
         pulse_badge = "bg-danger text-white"
         stage = "OEM Sourcing Evaluation"
         stage_desc = "Reviewing international supplier spec sheets and CFR shipping terms."
-    elif score >= 85:
-        days_left = 16 + (idx % 8)  # 16 to 23 days left (RFQ Window)
+    elif days_left <= 22:
         urgency_level = "active"
         status_tag = f"⚡ {days_left} Days Left (RFQ Window)"
         pulse_badge = "bg-warning text-dark"
         stage = "Pre-Contract Supply Alignment"
         stage_desc = "Comparing CFR/CIF landed quotes from international suppliers."
     else:
-        days_left = 28 + (idx % 12)  # Routine cycle
         urgency_level = "routine"
         status_tag = "🔄 Active Supply Cycle"
         pulse_badge = "bg-secondary text-white"
         stage = "Routine Ward Replenishment"
         stage_desc = "Recurring procurement agreement with staggered container shipments."
+
 
     # 2. Product-Specific SKU & Landed Cost Arbitrage
     if any(k in items for k in ["infusion", "giving", "iv ", "set", "fluid"]):
@@ -526,6 +554,11 @@ def compute_deal_engine(lead, trade_data, idx):
     return {
         "urgency_level": urgency_level,
         "days_left": days_left,
+        "days_elapsed": days_elapsed,
+        "award_date_iso": award_date_iso,       # ISO string for JS live recomputation
+        "award_date_str": award_date_str,       # Human-readable display
+        "deadline_str": deadline_str,
+        "last_shipment_str": last_shipment_str,
         "status_tag": status_tag,
         "stage": stage,
         "stage_desc": stage_desc,
