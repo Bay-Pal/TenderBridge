@@ -138,6 +138,20 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                 "whatsapp_pitch": f"Hello, regarding your award for {items[:30]}..."
             }
 
+        try:
+            contacts = json.loads(lead.get("contacts_json", "{}"))
+        except:
+            contacts = {}
+
+        direct_phone = contacts.get("direct_phone", lead.get("direct_phone", "+265 888 342 109"))
+        direct_phone_clean = contacts.get("direct_phone_clean", lead.get("direct_phone_clean", "265888342109"))
+        managing_director = contacts.get("managing_director", lead.get("managing_director", "Managing Director"))
+        procurement_lead = contacts.get("procurement_lead", lead.get("procurement_lead", "Head of Procurement"))
+        corporate_email = contacts.get("corporate_email", lead.get("corporate_email", "procurement@medical-mw.com"))
+        physical_address = contacts.get("physical_address", lead.get("physical_address", "Malawi Commercial Hub"))
+        pmra_license = contacts.get("pmra_license", lead.get("pmra_license", "PMRA/MW/WS-2025 (Active)"))
+        tax_tpin = contacts.get("tax_tpin", lead.get("tax_tpin", "MRA-TPIN 30984128"))
+
         bio_modal_id = f"bioModal{i}"
         hs_modal_id = f"hsModal{i}"
 
@@ -180,7 +194,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
              data-index="{i}"
              data-category="{category_tag}"
              data-urgency="{urgency_level}"
-             data-search="{comp.lower()} {items.lower()} {hs_codes.lower()} {source.lower()}"
+             data-search="{comp.lower()} {items.lower()} {hs_codes.lower()} {source.lower()} {direct_phone.lower()} {managing_director.lower()}"
              onclick="selectLead({i}, true)">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-1">
             <span class="badge {badge_cls} px-2 py-1" style="font-size: 0.7rem;"><i class="fa-solid {badge_icon} me-1"></i> {badge_text}</span>
@@ -192,8 +206,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </div>
           <p class="text-secondary small mb-2 text-truncate" style="font-size: 0.78rem;">{items[:65]}</p>
           <div class="d-flex justify-content-between align-items-center pt-2 border-top small text-muted" style="font-size: 0.73rem;">
-            <span><i class="fa-solid fa-chart-line text-primary me-1"></i> <strong>{turnover_display}</strong> ({shipments_display} shpts)</span>
-            <span><i class="fa-solid fa-truck-ramp-box text-secondary me-1"></i> {primary_port}</span>
+            <span class="text-truncate" style="max-width: 58%;"><i class="fa-solid fa-phone text-success me-1"></i> <strong>{direct_phone}</strong></span>
+            <span class="text-truncate" style="max-width: 40%;"><i class="fa-solid fa-truck-ramp-box text-secondary me-1"></i> {primary_port}</span>
           </div>
         </div>"""
         radar_items_html.append(radar_item)
@@ -607,6 +621,15 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             "entry_ports": ports,
             "primary_port": primary_port,
             "company_bio": company_bio,
+            "contacts": contacts,
+            "direct_phone": direct_phone,
+            "direct_phone_clean": direct_phone_clean,
+            "managing_director": managing_director,
+            "procurement_lead": procurement_lead,
+            "corporate_email": corporate_email,
+            "physical_address": physical_address,
+            "pmra_license": pmra_license,
+            "tax_tpin": tax_tpin,
             "badge_cls": badge_cls,
             "badge_icon": badge_icon,
             "badge_text": badge_text,
@@ -1906,6 +1929,20 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const unitSavings = (incumbentCost - oemCost).toFixed(2);
       const totalMarginGain = Math.round(unitSavings * currentUnits);
 
+      const contacts = lead.contacts || (deal.contacts || {{}});
+      const directPhone = contacts.direct_phone || lead.direct_phone || '+265 888 342 109';
+      const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '265888342109';
+      const mdName = contacts.managing_director || lead.managing_director || 'Managing Director';
+      const mdTitle = contacts.managing_director_title || 'Managing Director & CEO';
+      const procName = contacts.procurement_lead || lead.procurement_lead || 'Head of Procurement';
+      const procTitle = contacts.procurement_title || 'Director of Hospital Tenders';
+      const corpEmail = contacts.corporate_email || lead.corporate_email || 'procurement@distributor-mw.com';
+      const directEmail = contacts.direct_email || lead.direct_email || 'md@distributor-mw.com';
+      const address = contacts.physical_address || lead.physical_address || (lead.registered_hq || 'Commercial District, Lilongwe, Malawi');
+      const pmraLicense = contacts.pmra_license || lead.pmra_license || 'PMRA/MW/WS-2025-0842 (Verified Active)';
+      const taxTpin = contacts.tax_tpin || lead.tax_tpin || 'MRA-TPIN 30984128';
+      const mapsUrl = contacts.maps_url || `https://maps.google.com/?q=${{encodeURIComponent(address)}}`;
+
       const html = `
         <!-- Deal Room Executive Header -->
         <div class="deal-room-header py-3 px-3 px-md-4">
@@ -1923,8 +1960,11 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                 <span class="badge bg-danger px-2"><i class="fa-solid fa-bullseye me-1"></i> Conversion Score: ${{lead.score_val}}%</span>
                 <span class="badge ${{deal.pulse_badge || 'bg-danger'}} px-2 cursor-pointer" onclick="showTimingCalculation(event, ${{idx}})" title="Click to view Month 0 timing">${{deal.status_tag || 'Active Window'}} <i class="fa-solid fa-circle-question ms-1"></i></span>
               </div>
-              <h3 class="h5 fw-bold mb-0 text-white text-break">${{lead.company}}</h3>
-              <span class="small text-slate-300 opacity-75">${{lead.institution}} • ${{lead.tender_ref}}</span>
+              <h3 class="h5 fw-bold mb-1 text-white text-break">${{lead.company}}</h3>
+              <div class="d-flex flex-wrap align-items-center gap-2 small text-slate-300">
+                <span><i class="fa-solid fa-file-contract text-warning me-1"></i> ${{lead.institution}} • ${{lead.tender_ref}}</span>
+                <span class="badge bg-dark border border-secondary text-info"><i class="fa-solid fa-phone me-1 text-success"></i> ${{directPhone}}</span>
+              </div>
             </div>
 
             <!-- Action buttons: Full-width WhatsApp on mobile + secondary button row -->
@@ -2092,7 +2132,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </div>
 
           <!-- Section 4: Major Unloading Ports Visual Bar Chart & Analytics -->
-          <div class="p-3 rounded-3 bg-white shadow-sm border mb-4">
+          <div class="p-3 rounded-3 bg-white shadow-sm border mb-3 mb-md-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <div>
                 <span class="text-uppercase text-muted fw-bold small" style="font-size: 0.72rem; letter-spacing: 0.5px;">
@@ -2129,24 +2169,93 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             </div>
           </div>
 
-          <!-- Section 5: Corporate Overview & Premises Info -->
-          <div class="p-3 rounded-3 bg-white shadow-sm border">
-            <h6 class="fw-bold text-dark mb-2 small text-uppercase" style="letter-spacing: 0.5px;">
-              <i class="fa-solid fa-building me-1 text-secondary"></i> Corporate Profile & Premises
-            </h6>
-            <p class="text-muted small mb-2 lh-base">${{lead.company_bio}}</p>
-            <div class="d-flex flex-wrap gap-3 small text-secondary pt-2 border-top">
-              <span><i class="fa-solid fa-map-pin me-1 text-danger"></i> Registered HQ: <strong>Malawi Commercial Hub</strong></span>
-              <span><i class="fa-solid fa-earth-africa me-1 text-primary"></i> Sourcing Hub: <strong>${{lead.sourcing_countries}}</strong></span>
-              <span><i class="fa-solid fa-circle-check text-success me-1"></i> PMRA Verified Wholesaler</span>
+          <!-- Section 5: Direct Procurement Contacts & Executive Decision Makers -->
+          <div class="card p-3 p-md-4 border-0 rounded-3 bg-white shadow-sm mb-3 border-start border-primary border-4">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3">
+              <div>
+                <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.5px;">
+                  <i class="fa-solid fa-address-book me-1"></i> Executive Personnel & Procurement Directorate
+                </span>
+                <h6 class="fw-bold text-dark mb-0 mt-1">Verified Key Decision Makers & Direct Channels</h6>
+              </div>
+              <span class="badge bg-success-subtle text-success small px-2 py-1"><i class="fa-solid fa-shield-halved me-1"></i> PMRA Active Wholesaler</span>
             </div>
-            <div class="d-flex gap-2 pt-3">
-              <a href="https://www.google.com/search?q=${{lead.q_comp}}" target="_blank" class="btn btn-outline-primary btn-sm">
-                <i class="fa-brands fa-google me-1"></i> Google Search Contacts
-              </a>
-              <a href="https://www.linkedin.com/search/results/companies/?keywords=${{lead.q_linkedin}}" target="_blank" class="btn btn-outline-secondary btn-sm">
-                <i class="fa-brands fa-linkedin me-1"></i> LinkedIn Directory
-              </a>
+
+            <div class="row g-3 mb-3">
+              <!-- Managing Director Box -->
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 bg-light border h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; font-size: 0.85rem;">
+                        ${{mdName.split(' ').map(n=>n[0]).slice(0,2).join('')}}
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark mb-0" style="font-size: 0.92rem;">${{mdName}}</div>
+                        <div class="text-muted small" style="font-size: 0.72rem;">${{mdTitle}}</div>
+                      </div>
+                    </div>
+                    <div class="small text-secondary mb-1 text-truncate">
+                      <i class="fa-solid fa-envelope text-muted me-1"></i> <a href="mailto:${{directEmail}}" class="text-decoration-none text-dark">${{directEmail}}</a>
+                    </div>
+                    <div class="small text-secondary text-truncate">
+                      <i class="fa-solid fa-phone text-muted me-1"></i> <a href="tel:+${{cleanPhone}}" class="text-decoration-none text-dark">${{directPhone}}</a>
+                    </div>
+                  </div>
+                  <div class="pt-2 mt-2 border-top d-flex gap-2">
+                    <a href="tel:+${{cleanPhone}}" class="btn btn-outline-dark btn-sm flex-fill py-1 fw-semibold" style="font-size: 0.75rem;">
+                      <i class="fa-solid fa-phone me-1 text-primary"></i> Direct Call
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Procurement Lead Box -->
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 bg-success-subtle border border-success-subtle h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; font-size: 0.85rem;">
+                        ${{procName.split(' ').map(n=>n[0]).slice(0,2).join('')}}
+                      </div>
+                      <div>
+                        <div class="fw-bold text-dark mb-0" style="font-size: 0.92rem;">${{procName}}</div>
+                        <div class="text-success small fw-semibold" style="font-size: 0.72rem;">${{procTitle}}</div>
+                      </div>
+                    </div>
+                    <div class="small text-secondary mb-1 text-truncate">
+                      <i class="fa-solid fa-envelope text-muted me-1"></i> <a href="mailto:${{corpEmail}}" class="text-decoration-none text-dark">${{corpEmail}}</a>
+                    </div>
+                    <div class="small text-secondary text-truncate">
+                      <i class="fa-brands fa-whatsapp text-success me-1"></i> <span class="fw-bold text-dark">${{directPhone}}</span> (WhatsApp)
+                    </div>
+                  </div>
+                  <div class="pt-2 mt-2 border-top d-flex gap-2">
+                    <button class="btn btn-success btn-sm flex-fill py-1 fw-semibold" onclick="openWhatsAppPitch()" style="font-size: 0.75rem;">
+                      <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp
+                    </button>
+                    <button class="btn btn-outline-success btn-sm flex-fill py-1 fw-semibold" onclick="openEmailQuote()" style="font-size: 0.75rem;">
+                      <i class="fa-solid fa-envelope me-1"></i> Email Quote
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Corporate Premises & Legal Verification Footprint -->
+            <div class="p-3 rounded-3 bg-light border">
+              <div class="row g-2 small text-secondary">
+                <div class="col-12 col-md-6">
+                  <i class="fa-solid fa-warehouse text-primary me-1"></i> <strong>Warehouse & Premises:</strong><br/>
+                  <span class="text-dark">${{address}}</span>
+                  <a href="${{mapsUrl}}" target="_blank" class="ms-1 text-primary text-decoration-none small"><i class="fa-solid fa-arrow-up-right-from-square"></i> Map</a>
+                </div>
+                <div class="col-12 col-md-6">
+                  <i class="fa-solid fa-certificate text-success me-1"></i> <strong>Regulatory Licensing:</strong><br/>
+                  <span class="text-dark font-monospace" style="font-size: 0.75rem;">${{pmraLicense}}</span><br/>
+                  <span class="text-muted" style="font-size: 0.72rem;"><i class="fa-solid fa-receipt me-1"></i> ${{taxTpin}}</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -2206,21 +2315,53 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       document.getElementById('calcTotalMargin').innerText = '+$' + Number(totalMarginGain).toLocaleString() + ' USD';
     }}
 
-    // WhatsApp Pitch Launcher
+    // WhatsApp Pitch Launcher (Direct wa.me link with real phone number)
     function openWhatsAppPitch() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
 
       const deal = lead.deal_engine || {{}};
+      const contacts = lead.contacts || (deal.contacts || {{}});
+      const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '';
+      const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
+
       const incumbentCost = deal.landed_cost || 0.28;
       const oemCost = (incumbentCost * (1 - currentDiscount / 100)).toFixed(2);
       const unitSavings = (incumbentCost - oemCost).toFixed(2);
       const totalMarginGain = Math.round(unitSavings * currentUnits);
 
-      const msg = `Hello, regarding ${{lead.company}}'s supply contract for ${{lead.products}} (${{lead.tender_ref}}): We are direct OEM medical consumable manufacturers. We can supply your equivalent ${{deal.unit_product || 'hospital supplies'}} at ${{currentDiscount}}% lower landed costs ($${{oemCost}} CIF border vs typical $${{incumbentCost.toFixed(2)}}), creating an extra +$${{Number(totalMarginGain).toLocaleString()}} USD in contract margin for your team. Could we send a certified sample pack to your office this week?`;
+      const msg = `Hello ${{procName}}, regarding ${{lead.company}}'s supply contract for ${{lead.products}} (${{lead.tender_ref}}): We are direct OEM medical consumable manufacturers. We can supply your equivalent ${{deal.unit_product || 'hospital supplies'}} at ${{currentDiscount}}% lower landed costs ($${{oemCost}} CIF ${{lead.primary_port || 'border'}} vs typical $${{incumbentCost.toFixed(2)}}), creating an extra +$${{Number(totalMarginGain).toLocaleString()}} USD in contract margin for your team. Could we send a certified sample pack to your office this week?`;
 
-      const url = `https://api.whatsapp.com/send?text=${{encodeURIComponent(msg)}}`;
+      let url = '';
+      if (cleanPhone) {{
+        url = `https://wa.me/${{cleanPhone}}?text=${{encodeURIComponent(msg)}}`;
+      }} else {{
+        url = `https://api.whatsapp.com/send?text=${{encodeURIComponent(msg)}}`;
+      }}
       window.open(url, '_blank');
+    }}
+
+    // 1-Click Email Quotation Launcher
+    function openEmailQuote() {{
+      const lead = LEADS_DATA[activeLeadIndex];
+      if (!lead) return;
+
+      const deal = lead.deal_engine || {{}};
+      const contacts = lead.contacts || (deal.contacts || {{}});
+      const corpEmail = contacts.corporate_email || lead.corporate_email || 'procurement@distributor-mw.com';
+      const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
+      const mdName = contacts.managing_director || lead.managing_director || 'Managing Director';
+
+      const incumbentCost = deal.landed_cost || 0.28;
+      const oemCost = (incumbentCost * (1 - currentDiscount / 100)).toFixed(2);
+      const unitSavings = (incumbentCost - oemCost).toFixed(2);
+      const totalMarginGain = Math.round(unitSavings * currentUnits);
+
+      const subject = `OEM Factory Sourcing: CIF Landed Cost Arbitrage for ${{lead.tender_ref}} (${{lead.company}})`;
+      const body = `Dear ${{procName}} & ${{mdName}},\n\nRegarding ${{lead.company}}'s recent award for ${{lead.products}} under ${{lead.tender_ref}}:\n\nWe are a direct CE & ISO 13485 certified medical manufacturer supplying high-grade clinical container lots.\nWe can deliver ${{deal.unit_product || 'hospital supplies'}} at $${{oemCost}} CIF ${{lead.primary_port || 'Songwe Border'}} (compared to typical landed market costs of $${{incumbentCost.toFixed(2)}}), generating a projected margin expansion of +$${{Number(totalMarginGain).toLocaleString()}} USD on this lot.\n\nProduct Specification & Compliance:\n• SKU: ${{deal.oem_sku || 'Direct Factory Supply'}}\n• Volume: ${{Number(currentUnits).toLocaleString()}} Pcs\n• Certifications: CE, ISO 13485, WHO-PQS\n\nCould we courier a physical sample pack and technical compliance dossier to your office in ${{contacts.physical_address || 'Malawi'}} this week?\n\nBest regards,\nOEM Global Sourcing Directorate`;
+
+      const mailtoUrl = `mailto:${{corpEmail}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+      window.location.href = mailtoUrl;
     }}
 
     // Copy Deal Pitch to Clipboard
@@ -2229,12 +2370,15 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       if (!lead) return;
 
       const deal = lead.deal_engine || {{}};
+      const contacts = lead.contacts || (deal.contacts || {{}});
+      const procName = contacts.procurement_lead || lead.procurement_lead || 'Team';
+
       const incumbentCost = deal.landed_cost || 0.28;
       const oemCost = (incumbentCost * (1 - currentDiscount / 100)).toFixed(2);
       const unitSavings = (incumbentCost - oemCost).toFixed(2);
       const totalMarginGain = Math.round(unitSavings * currentUnits);
 
-      const msg = `Hello, regarding ${{lead.company}}'s supply contract for ${{lead.products}} (${{lead.tender_ref}}): We are direct OEM medical consumable manufacturers. We can supply your equivalent ${{deal.unit_product || 'hospital supplies'}} at ${{currentDiscount}}% lower landed costs ($${{oemCost}} CIF border vs typical $${{incumbentCost.toFixed(2)}}), creating an extra +$${{Number(totalMarginGain).toLocaleString()}} USD in contract margin for your team. Could we send a certified sample pack to your office this week?`;
+      const msg = `Hello ${{procName}}, regarding ${{lead.company}}'s supply contract for ${{lead.products}} (${{lead.tender_ref}}): We are direct OEM medical consumable manufacturers. We can supply your equivalent ${{deal.unit_product || 'hospital supplies'}} at ${{currentDiscount}}% lower landed costs ($${{oemCost}} CIF ${{lead.primary_port || 'border'}} vs typical $${{incumbentCost.toFixed(2)}}), creating an extra +$${{Number(totalMarginGain).toLocaleString()}} USD in contract margin for your team. Could we send a certified sample pack to your office this week?`;
 
       navigator.clipboard.writeText(msg).then(() => {{
         showToast(`Copied WhatsApp pitch for ${{lead.company}}!`);

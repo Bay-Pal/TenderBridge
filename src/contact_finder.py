@@ -79,6 +79,40 @@ def _extract_emails(text):
     })
 
 
+def clean_phone_for_whatsapp(phone):
+    """
+    Cleans a phone number to standard international format with no +, -, or spaces
+    suitable for direct https://wa.me/{number} links.
+    e.g. '+265 888 342 109' -> '265888342109'
+         '0888 342 109' -> '265888342109' (Malawi local mobile)
+    """
+    if not phone:
+        return ""
+    digits = re.sub(r"[^\d]", "", str(phone))
+    if digits.startswith("0") and len(digits) == 10 and (digits[1] in "89"):
+        digits = "265" + digits[1:]
+    elif digits.startswith("265") or digits.startswith("254") or digits.startswith("255") or digits.startswith("260"):
+        pass
+    elif len(digits) == 9 and digits[0] in "89":
+        digits = "265" + digits
+    return digits
+
+
+def build_whatsapp_url(phone, message):
+    """Generate a 1-click WhatsApp deep link with pre-filled message text."""
+    clean_p = clean_phone_for_whatsapp(phone)
+    if not clean_p:
+        return f"https://api.whatsapp.com/send?text={urllib.parse.quote(message)}"
+    return f"https://wa.me/{clean_p}?text={urllib.parse.quote(message)}"
+
+
+def build_mailto_url(email, subject, body):
+    """Generate a 1-click mailto: URL with subject and pre-filled email body."""
+    if not email:
+        return ""
+    return f"mailto:{email}?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
+
+
 def _slug(name):
     """Convert a company name to a URL slug."""
     s = name.lower()
