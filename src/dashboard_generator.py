@@ -1598,16 +1598,15 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
   <header class="navbar-hero mb-3 mb-md-4">
     <div class="container">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 gap-md-3">
-        <div>
-          <div class="d-flex align-items-center gap-2 mb-1">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-2">
             <span class="fs-4 text-primary"><i class="fa-solid fa-bridge-water"></i></span>
             <h1 class="h4 fw-bold mb-0 text-white">TenderBridge Intelligence</h1>
             <span class="badge bg-primary-subtle text-primary fw-bold ms-1" style="font-size: 0.7rem;">Phase 2</span>
           </div>
-          <p class="text-slate-300 mb-0 small opacity-75 d-none d-md-block">B2B Deal Workstation & Revenue Engine for African Medical Distributor Sub-Contracts</p>
         </div>
         
-        <div class="nav-actions-bar d-flex align-items-center gap-2 w-100 w-md-auto">
+        <div class="nav-actions-bar d-flex flex-wrap align-items-center gap-2 w-100 w-md-auto pt-1">
           <!-- View Mode Switcher -->
           <div class="btn-group bg-dark-subtle p-1 rounded-3 flex-shrink-0" role="group" aria-label="View Switcher">
             <button type="button" id="viewBtnWorkstation" class="btn btn-sm btn-primary fw-bold px-2 px-md-3 py-1" onclick="setViewMode('workstation')">
@@ -1619,7 +1618,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </div>
 
           <button type="button" class="btn btn-outline-light btn-sm fw-semibold px-2 px-md-3 py-1 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#sourcesModal">
-            <i class="fa-solid fa-database me-1 text-info"></i> Data Sources
+            <i class="fa-solid fa-database me-1 text-info"></i> Sources
           </button>
           
           <button id="refreshBtn" class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-1 flex-shrink-0 shadow-sm" onclick="triggerRefresh()">
@@ -1627,7 +1626,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </button>
 
           <button type="button" id="viewBtnArch" class="btn btn-outline-warning btn-sm fw-bold px-2 px-md-3 py-1 flex-shrink-0 text-white" style="background: rgba(234, 179, 8, 0.18); border-color: #eab308;" onclick="setViewMode('architecture')">
-            <i class="fa-solid fa-bolt-lightning me-1 text-warning"></i> Platform Flow & Benchmark
+            <i class="fa-solid fa-bolt-lightning me-1 text-warning"></i> Platform Flow
           </button>
         </div>
       </div>
@@ -1927,17 +1926,17 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </div>
         </div>
 
-        <div class="p-4 bg-light">
+        <div class="p-3 p-md-4 bg-light">
           
           <!-- Month 0 Urgency Deal Radar Alert Banner -->
-          <div class="card p-3 border-0 shadow-sm rounded-3 mb-4 bg-white border-start border-danger border-4">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-              <div class="d-flex align-items-center gap-2">
+          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 mb-md-4 bg-white border-start border-danger border-4">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-2">
+              <div class="d-flex flex-wrap align-items-center gap-2">
                 <span class="badge ${{deal.pulse_badge || 'bg-danger'}} fw-bold small cursor-pointer" onclick="showTimingCalculation(event, ${{idx}})" title="Click to view calculation breakdown">${{deal.status_tag}} <i class="fa-solid fa-circle-info ms-1"></i></span>
                 <h6 class="fw-bold text-dark mb-0">${{deal.stage}}</h6>
               </div>
-              <button class="btn btn-sm btn-link text-danger p-0 fw-semibold text-decoration-none" onclick="showTimingCalculation(event, ${{idx}})">
-                <i class="fa-solid fa-calculator me-1"></i> View Calculation
+              <button class="btn btn-sm btn-outline-danger py-1 px-2 fw-semibold text-decoration-none flex-shrink-0" onclick="showTimingCalculation(event, ${{idx}})">
+                <i class="fa-solid fa-calculator me-1"></i> View Math Breakdown
               </button>
             </div>
             <p class="text-secondary small mb-0 lh-base">
@@ -1946,27 +1945,27 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </div>
 
           <!-- Section 1: 4 Aligned KPI Cards -->
-          <div class="row g-3 mb-4">
+          <div class="row g-2 g-md-3 mb-3 mb-md-4">
             <div class="col-6 col-md-3">
-              <div class="kpi-card text-center p-3 rounded-3 bg-white shadow-sm border">
+              <div class="kpi-card text-center p-2 p-md-3 rounded-3 bg-white shadow-sm border">
                 <div class="kpi-val text-primary">${{lead.turnover_num}}</div>
                 <div class="kpi-lbl">IMPORT TURNOVER</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
-              <div class="kpi-card text-center p-3 rounded-3 bg-white shadow-sm border">
+              <div class="kpi-card text-center p-2 p-md-3 rounded-3 bg-white shadow-sm border">
                 <div class="kpi-val text-dark">${{lead.shipments_num}}</div>
                 <div class="kpi-lbl">IMPORT SHIPMENTS</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
-              <div class="kpi-card text-center p-3 rounded-3 bg-white shadow-sm border">
+              <div class="kpi-card text-center p-2 p-md-3 rounded-3 bg-white shadow-sm border">
                 <div class="kpi-val text-success ${{lead.award_val_class}}">${{lead.kpi_award_val}}</div>
                 <div class="kpi-lbl">TENDER AWARD VALUE</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
-              <div class="kpi-card text-center p-3 rounded-3 bg-white shadow-sm border">
+              <div class="kpi-card text-center p-2 p-md-3 rounded-3 bg-white shadow-sm border">
                 <div class="kpi-val text-danger">${{lead.score_val}}%</div>
                 <div class="kpi-lbl">BUYER MATCH SCORE</div>
               </div>
@@ -1974,7 +1973,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           </div>
 
           <!-- Section 2: Interactive OEM Landed Cost & Margin Arbitrage Calculator -->
-          <div class="card p-3 border-0 rounded-3 bg-white shadow-sm mb-4 border-top border-success border-3">
+          <div class="card p-3 border-0 rounded-3 bg-white shadow-sm mb-3 mb-md-4 border-top border-success border-3">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <div>
                 <span class="badge bg-success-subtle text-success fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.5px;">
@@ -2013,36 +2012,37 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
               </div>
             </div>
 
+            <!-- Responsive 2x2 (Mobile) / 4-Col (Desktop) Margin Summary Tiles -->
             <div class="row g-2 text-center pt-2 border-top">
-              <div class="col-3">
-                <div class="p-2 rounded-2 bg-light border">
-                  <div class="text-muted" style="font-size: 0.68rem; font-weight: 700;">INCUMBENT CIF</div>
-                  <div class="fw-bold text-danger" id="calcIncumbentCost" style="font-size: 1.05rem;">$${{incumbentCost.toFixed(2)}}</div>
+              <div class="col-6 col-md-3">
+                <div class="p-2 rounded-2 bg-light border h-100 d-flex flex-column justify-content-center">
+                  <div class="text-muted small fw-bold mb-1" style="font-size: 0.68rem;">INCUMBENT CIF</div>
+                  <div class="fw-bold text-danger" id="calcIncumbentCost" style="font-size: 1.1rem;">$${{incumbentCost.toFixed(2)}}</div>
                 </div>
               </div>
-              <div class="col-3">
-                <div class="p-2 rounded-2 bg-light border">
-                  <div class="text-muted" style="font-size: 0.68rem; font-weight: 700;">OUR OEM FACTORY</div>
-                  <div class="fw-bold text-success" id="calcOemCost" style="font-size: 1.05rem;">$${{oemCost}}</div>
+              <div class="col-6 col-md-3">
+                <div class="p-2 rounded-2 bg-light border h-100 d-flex flex-column justify-content-center">
+                  <div class="text-muted small fw-bold mb-1" style="font-size: 0.68rem;">OUR OEM FACTORY</div>
+                  <div class="fw-bold text-success" id="calcOemCost" style="font-size: 1.1rem;">$${{oemCost}}</div>
                 </div>
               </div>
-              <div class="col-3">
-                <div class="p-2 rounded-2 bg-light border">
-                  <div class="text-muted" style="font-size: 0.68rem; font-weight: 700;">UNIT SAVINGS</div>
-                  <div class="fw-bold text-primary" id="calcUnitSavings" style="font-size: 1.05rem;">-$${{unitSavings}}</div>
+              <div class="col-6 col-md-3">
+                <div class="p-2 rounded-2 bg-light border h-100 d-flex flex-column justify-content-center">
+                  <div class="text-muted small fw-bold mb-1" style="font-size: 0.68rem;">UNIT SAVINGS</div>
+                  <div class="fw-bold text-primary" id="calcUnitSavings" style="font-size: 1.1rem;">-$${{unitSavings}}</div>
                 </div>
               </div>
-              <div class="col-3">
-                <div class="p-2 rounded-2 bg-success text-white">
-                  <div style="font-size: 0.68rem; font-weight: 700; opacity: 0.9;">EXTRA PROFIT</div>
-                  <div class="fw-bold" id="calcTotalMargin" style="font-size: 1.05rem;">+$${{Number(totalMarginGain).toLocaleString()}} USD</div>
+              <div class="col-6 col-md-3">
+                <div class="p-2 rounded-2 bg-success text-white h-100 d-flex flex-column justify-content-center">
+                  <div class="small fw-bold mb-1" style="font-size: 0.68rem; opacity: 0.95;">EXTRA PROFIT</div>
+                  <div class="fw-bold" id="calcTotalMargin" style="font-size: 1.1rem;">+$${{Number(totalMarginGain).toLocaleString()}} USD</div>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Section 3: Supply Cycle Timeline Strip -->
-          <div class="p-3 rounded-3 bg-white shadow-sm border mb-4">
+          <div class="p-3 rounded-3 bg-white shadow-sm border mb-3 mb-md-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <span class="text-uppercase text-muted fw-bold small" style="font-size: 0.72rem; letter-spacing: 0.5px;">
                 <i class="fa-solid fa-timeline text-primary me-1"></i> Procurement & Supply Cycle Timeline
@@ -2051,19 +2051,19 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             </div>
             
             <div class="row text-center g-2 py-1">
-              <div class="col-3 border-end">
+              <div class="col-6 col-md-3 border-end">
                 <div class="text-muted small mb-1" style="font-size: 0.72rem;">Open / Awarded</div>
                 <div class="fw-bold text-dark small">${{timeline.award_date || '24 Jan 2026'}}</div>
               </div>
-              <div class="col-3 border-end">
+              <div class="col-6 col-md-3 border-end">
                 <div class="text-muted small mb-1" style="font-size: 0.72rem;">Last Shipment Date</div>
                 <div class="fw-bold text-primary small">${{timeline.last_shipment || '19 Feb 2026'}}</div>
               </div>
-              <div class="col-3 border-end">
+              <div class="col-6 col-md-3 border-end">
                 <div class="text-muted small mb-1" style="font-size: 0.72rem;">Delivery Deadline</div>
                 <div class="fw-bold text-dark small">${{timeline.deadline || '24 Apr 2026'}}</div>
               </div>
-              <div class="col-3">
+              <div class="col-6 col-md-3">
                 <div class="text-muted small mb-1" style="font-size: 0.72rem;">OEM Pitch Window</div>
                 <div class="fw-bold text-danger small">${{timeline.call_window || 'Active Now'}}</div>
               </div>
