@@ -1527,101 +1527,106 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
     }}
 
     /* ═══════════════════════════════════════════════════════════════════════ */
-    /* MOBILE RESPONSIVE — iPhone Safari, Chrome Android, iPad                 */
+    /* MOBILE WORKSTATION & RESPONSIVE STYLES (iOS / Android / Tablets)         */
     /* ═══════════════════════════════════════════════════════════════════════ */
-    @media (max-width: 768px) {{
-      .navbar-hero {{ padding: 0.85rem 0; }}
-      .navbar-hero .container {{ flex-direction: column !important; align-items: flex-start !important; gap: 0.6rem; }}
-      .navbar-hero h1 {{ font-size: 1.1rem !important; }}
-      .navbar-hero p {{ font-size: 0.7rem !important; }}
-      .navbar-hero .d-flex.flex-wrap {{
-        width: 100%; overflow-x: auto; flex-wrap: nowrap !important;
-        padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    .nav-actions-bar {{
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }}
+    .nav-actions-bar::-webkit-scrollbar {{ display: none; }}
+
+    @media (max-width: 991.98px) {{
+      .navbar-hero {{ padding: 0.75rem 0; }}
+      .navbar-hero h1 {{ font-size: 1.15rem !important; }}
+      .navbar-hero .btn {{ white-space: nowrap; font-size: 0.75rem; }}
+
+      /* Mobile Workstation Tab Switching */
+      .mobile-tab-pane {{
+        display: none !important;
       }}
-      .navbar-hero .d-flex.flex-wrap::-webkit-scrollbar {{ display: none; }}
-      .navbar-hero .btn {{ white-space: nowrap; font-size: 0.72rem; padding: 0.38rem 0.7rem; }}
+      .mobile-tab-pane.active {{
+        display: block !important;
+      }}
+      #mobileWorkstationTabs {{
+        display: flex !important;
+      }}
 
       /* Stat cards: 2-col grid */
-      .stat-val {{ font-size: 1.3rem; }}
+      .stat-val {{ font-size: 1.35rem; }}
       .stat-lbl {{ font-size: 0.65rem; }}
 
-      /* Workstation: collapse to single column */
-      #workstationView .row.g-3 {{ flex-direction: column !important; }}
-      #workstationView .col-lg-5,
-      #workstationView .col-lg-7 {{
-        width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important;
-      }}
-      .radar-scroll-list {{ max-height: 360px !important; }}
+      /* Radar List Height on Mobile */
+      .radar-scroll-list {{ max-height: 520px !important; }}
 
-      /* Deal Room header: stack buttons */
-      #dealRoomCard .d-flex.justify-content-between {{ flex-direction: column; gap: 0.5rem; }}
-      #dealRoomCard h3 {{ font-size: 0.95rem !important; }}
-      #dealRoomCard .btn {{ font-size: 0.7rem; padding: 0.32rem 0.55rem; }}
+      /* Deal Room Header Mobile */
+      .deal-room-header h3 {{ font-size: 1.05rem !important; }}
 
-      /* KPI metric tiles: 2-column */
+      /* KPI metric tiles: 2-column on mobile */
       #dealRoomCard .col-6.col-md-3 {{ flex: 0 0 50%; max-width: 50%; }}
-      .kpi-val {{ font-size: 1rem !important; }}
+      .kpi-val {{ font-size: 1.05rem !important; }}
 
-      /* Margin calculator: full width */
+      /* Margin calculator: full width on mobile */
       #dealRoomCard .col-md-6 {{ flex: 0 0 100%; max-width: 100%; }}
 
-      /* Card Grid: single column */
+      /* Classic Card Grid: 1-col on mobile */
       #leadsGrid .col-md-6 {{ flex: 0 0 100%; max-width: 100%; }}
-      .btn-action {{ font-size: 0.7rem; padding: 0.35rem 0.35rem; }}
+      .btn-action {{ font-size: 0.72rem; padding: 0.4rem 0.35rem; }}
 
-      /* Ensure tap targets ≥ 44px */
-      .btn {{ min-height: 40px; }}
+      /* Ensure tap targets ≥ 42px */
+      .btn {{ min-height: 38px; }}
 
-      /* Architecture view: responsive pipeline */
-      #architectureView .display-6 {{ font-size: 1.3rem !important; }}
-
-      /* Modals: near full-screen */
+      /* Modals: near full-width on mobile */
       .modal-dialog {{ margin: 0.4rem; max-width: calc(100vw - 0.8rem) !important; }}
     }}
 
-    @media (min-width: 769px) and (max-width: 1024px) {{
-      #workstationView .col-lg-5 {{ flex: 0 0 42%; max-width: 42%; }}
-      #workstationView .col-lg-7 {{ flex: 0 0 58%; max-width: 58%; }}
-      .radar-scroll-list {{ max-height: 600px !important; }}
+    @media (min-width: 992px) {{
+      .mobile-tab-pane {{
+        display: block !important;
+      }}
+      #mobileWorkstationTabs {{
+        display: none !important;
+      }}
+      .radar-scroll-list {{ max-height: 860px !important; }}
     }}
   </style>
 </head>
 <body>
 
   <!-- Top Hero Bar -->
-  <header class="navbar-hero mb-4">
+  <header class="navbar-hero mb-3 mb-md-4">
     <div class="container">
-      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 gap-md-3">
         <div>
           <div class="d-flex align-items-center gap-2 mb-1">
             <span class="fs-4 text-primary"><i class="fa-solid fa-bridge-water"></i></span>
-            <h1 class="h3 fw-bold mb-0">TenderBridge Intelligence</h1>
-            <span class="badge bg-primary-subtle text-primary fw-bold ms-2">Phase 2 Workstation</span>
+            <h1 class="h4 fw-bold mb-0 text-white">TenderBridge Intelligence</h1>
+            <span class="badge bg-primary-subtle text-primary fw-bold ms-1" style="font-size: 0.7rem;">Phase 2</span>
           </div>
-          <p class="text-slate-300 mb-0 small opacity-75">B2B Deal Workstation & Revenue Engine for African Medical Distributor Sub-Contracts</p>
+          <p class="text-slate-300 mb-0 small opacity-75 d-none d-md-block">B2B Deal Workstation & Revenue Engine for African Medical Distributor Sub-Contracts</p>
         </div>
         
-        <div class="d-flex flex-wrap align-items-center gap-2">
-          <!-- View Mode Switcher (Workstation vs Grid Only) -->
-          <div class="btn-group bg-dark-subtle p-1 rounded-3 me-1" role="group" aria-label="View Switcher">
-            <button type="button" id="viewBtnWorkstation" class="btn btn-sm btn-primary fw-bold px-3 py-1" onclick="setViewMode('workstation')">
+        <div class="nav-actions-bar d-flex align-items-center gap-2 w-100 w-md-auto">
+          <!-- View Mode Switcher -->
+          <div class="btn-group bg-dark-subtle p-1 rounded-3 flex-shrink-0" role="group" aria-label="View Switcher">
+            <button type="button" id="viewBtnWorkstation" class="btn btn-sm btn-primary fw-bold px-2 px-md-3 py-1" onclick="setViewMode('workstation')">
               <i class="fa-solid fa-desktop me-1"></i> Workstation
             </button>
-            <button type="button" id="viewBtnGrid" class="btn btn-sm btn-outline-light fw-bold px-3 py-1" onclick="setViewMode('grid')">
+            <button type="button" id="viewBtnGrid" class="btn btn-sm btn-outline-light fw-bold px-2 px-md-3 py-1" onclick="setViewMode('grid')">
               <i class="fa-solid fa-grip me-1"></i> Card Grid
             </button>
           </div>
 
-          <button type="button" class="btn btn-outline-light btn-sm fw-semibold px-3 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#sourcesModal">
+          <button type="button" class="btn btn-outline-light btn-sm fw-semibold px-2 px-md-3 py-1 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#sourcesModal">
             <i class="fa-solid fa-database me-1 text-info"></i> Data Sources
           </button>
           
-          <button id="refreshBtn" class="btn btn-primary btn-sm fw-bold px-3 py-2 shadow-sm" onclick="triggerRefresh()">
-            <i class="fa-solid fa-rotate me-1" id="refreshIcon"></i> Refresh Live Data
+          <button id="refreshBtn" class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-1 flex-shrink-0 shadow-sm" onclick="triggerRefresh()">
+            <i class="fa-solid fa-rotate me-1" id="refreshIcon"></i> Refresh
           </button>
 
-          <!-- Prominent Dedicated Pitch Deck & Architecture Button -->
-          <button type="button" id="viewBtnArch" class="btn btn-outline-warning btn-sm fw-bold px-3 py-2 shadow-sm text-white" style="background: rgba(234, 179, 8, 0.18); border-color: #eab308;" onclick="setViewMode('architecture')">
+          <button type="button" id="viewBtnArch" class="btn btn-outline-warning btn-sm fw-bold px-2 px-md-3 py-1 flex-shrink-0 text-white" style="background: rgba(234, 179, 8, 0.18); border-color: #eab308;" onclick="setViewMode('architecture')">
             <i class="fa-solid fa-bolt-lightning me-1 text-warning"></i> Platform Flow & Benchmark
           </button>
         </div>
@@ -1668,10 +1673,21 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
     <!-- VIEW 1: SPLIT-PANE WORKSTATION (40% / 60%) — DEFAULT                   -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <div id="workstationView" class="mb-5">
+      
+      <!-- Mobile-only Tab Switcher (Distributors vs Deal Room) -->
+      <div class="d-flex d-lg-none mb-3 bg-white p-1 rounded-3 border shadow-sm" id="mobileWorkstationTabs">
+        <button class="btn btn-sm btn-primary fw-bold w-50 py-2 rounded-2" id="tabBtnRadar" onclick="switchMobileTab('radar')">
+          <i class="fa-solid fa-satellite-dish me-1"></i> Distributors (<span id="mobileRadarCount">{total_leads}</span>)
+        </button>
+        <button class="btn btn-sm btn-light fw-bold w-50 py-2 rounded-2 text-dark" id="tabBtnDeal" onclick="switchMobileTab('deal')">
+          <i class="fa-solid fa-briefcase me-1 text-primary"></i> Live Deal Room
+        </button>
+      </div>
+
       <div class="row g-3">
         
-        <!-- LEFT PANE (40%): Deal Radar Queue -->
-        <div class="col-12 col-lg-5">
+        <!-- LEFT PANE (40% / Mobile Tab 1): Deal Radar Queue -->
+        <div class="col-12 col-lg-5 mobile-tab-pane active" id="workstationRadarCol">
           <div class="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <!-- Radar Filter & Search Header -->
             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -1693,14 +1709,14 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             </div>
 
             <!-- Scrollable Lead List -->
-            <div class="radar-scroll-list" id="radarListContainer" style="max-height: 860px; overflow-y: auto; padding-right: 4px;">
+            <div class="radar-scroll-list" id="radarListContainer" style="overflow-y: auto; padding-right: 4px;">
               {radar_items_str}
             </div>
           </div>
         </div>
 
-        <!-- RIGHT PANE (60%): Live Deal Room -->
-        <div class="col-12 col-lg-7">
+        <!-- RIGHT PANE (60% / Mobile Tab 2): Live Deal Room -->
+        <div class="col-12 col-lg-7 mobile-tab-pane" id="workstationDealCol">
           <div class="card border-0 shadow-sm rounded-3 bg-white overflow-hidden" id="dealRoomCard">
             <div id="dealRoomBody" class="p-0">
               <!-- Dynamically populated by JS: renderDealRoom(activeLeadIndex) -->
@@ -1784,6 +1800,39 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       }});
     }}
 
+    // ─── MOBILE TAB SWITCHER (Distributors vs Deal Room) ─────────────────────
+    let currentMobileTab = 'radar';
+
+    function switchMobileTab(tab) {{
+      currentMobileTab = tab;
+      const radarCol = document.getElementById('workstationRadarCol');
+      const dealCol = document.getElementById('workstationDealCol');
+      const tabBtnRadar = document.getElementById('tabBtnRadar');
+      const tabBtnDeal = document.getElementById('tabBtnDeal');
+
+      if (tab === 'radar') {{
+        if (radarCol) radarCol.classList.add('active');
+        if (dealCol) dealCol.classList.remove('active');
+        if (tabBtnRadar) {{
+          tabBtnRadar.className = 'btn btn-sm btn-primary fw-bold w-50 py-2 rounded-2';
+        }}
+        if (tabBtnDeal) {{
+          tabBtnDeal.className = 'btn btn-sm btn-light fw-bold w-50 py-2 rounded-2 text-dark';
+        }}
+      }} else {{
+        if (dealCol) dealCol.classList.add('active');
+        if (radarCol) radarCol.classList.remove('active');
+        if (tabBtnDeal) {{
+          tabBtnDeal.className = 'btn btn-sm btn-primary fw-bold w-50 py-2 rounded-2';
+        }}
+        if (tabBtnRadar) {{
+          tabBtnRadar.className = 'btn btn-sm btn-light fw-bold w-50 py-2 rounded-2 text-dark';
+        }}
+        // Scroll to top of Deal Room on mobile
+        window.scrollTo({{ top: 100, behavior: 'smooth' }});
+      }}
+    }}
+
     // ─── WORKSTATION DEAL ROOM RENDERER ──────────────────────────────────────
     function selectLead(idx, isUserClick = false) {{
       activeLeadIndex = idx;
@@ -1792,11 +1841,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       if (card) card.classList.add('active');
       renderDealRoom(idx);
 
-      if (isUserClick && window.innerWidth <= 768) {{
-        const dealRoom = document.getElementById('dealRoomCard');
-        if (dealRoom) {{
-          dealRoom.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-        }}
+      if (isUserClick && window.innerWidth < 992) {{
+        switchMobileTab('deal');
       }}
     }}
 
@@ -1842,30 +1888,41 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
 
       const html = `
         <!-- Deal Room Executive Header -->
-        <div class="deal-room-header py-3 px-4">
-          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div class="deal-room-header py-3 px-3 px-md-4">
+          <!-- Mobile Back Button -->
+          <div class="d-lg-none mb-2">
+            <button class="btn btn-outline-light btn-sm w-100 fw-bold py-2 shadow-sm" onclick="switchMobileTab('radar')">
+              <i class="fa-solid fa-arrow-left me-1 text-warning"></i> Back to Distributor List
+            </button>
+          </div>
+
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
             <div>
-              <div class="d-flex align-items-center gap-2 mb-1">
+              <div class="d-flex flex-wrap align-items-center gap-1 gap-md-2 mb-1">
                 <span class="badge ${{lead.badge_cls}}">${{lead.badge_text}}</span>
                 <span class="badge bg-danger px-2"><i class="fa-solid fa-bullseye me-1"></i> Conversion Score: ${{lead.score_val}}%</span>
                 <span class="badge ${{deal.pulse_badge || 'bg-danger'}} px-2 cursor-pointer" onclick="showTimingCalculation(event, ${{idx}})" title="Click to view Month 0 timing">${{deal.status_tag || 'Active Window'}} <i class="fa-solid fa-circle-question ms-1"></i></span>
               </div>
-              <h3 class="h5 fw-bold mb-0 text-white">${{lead.company}}</h3>
+              <h3 class="h5 fw-bold mb-0 text-white text-break">${{lead.company}}</h3>
               <span class="small text-slate-300 opacity-75">${{lead.institution}} • ${{lead.tender_ref}}</span>
             </div>
-            <div class="d-flex flex-wrap gap-2">
-              <button class="btn btn-success btn-sm fw-bold px-3 shadow-sm" onclick="openWhatsAppPitch()">
-                <i class="fa-brands fa-whatsapp me-1"></i> Pitch WhatsApp
+
+            <!-- Action buttons: Full-width WhatsApp on mobile + secondary button row -->
+            <div class="d-flex flex-column flex-sm-row flex-wrap gap-2 w-100 w-md-auto">
+              <button class="btn btn-success btn-sm fw-bold px-3 py-2 shadow-sm flex-grow-1 flex-md-grow-0" onclick="openWhatsAppPitch()">
+                <i class="fa-brands fa-whatsapp me-1"></i> Pitch on WhatsApp
               </button>
-              <button class="btn btn-primary btn-sm fw-bold px-3 shadow-sm" onclick="copyDealPitch()">
-                <i class="fa-solid fa-copy me-1"></i> Copy Pitch
-              </button>
-              <button class="btn btn-outline-light btn-sm fw-semibold" onclick="exportExecutivePDF()">
-                <i class="fa-solid fa-file-pdf me-1 text-danger"></i> Export PDF
-              </button>
-              <button class="btn btn-outline-info btn-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#${{lead.hs_modal_id}}">
-                <i class="fa-solid fa-barcode me-1"></i> HS Codes
-              </button>
+              <div class="d-flex gap-2 flex-grow-1 flex-md-grow-0">
+                <button class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-2 shadow-sm flex-fill" onclick="copyDealPitch()">
+                  <i class="fa-solid fa-copy me-1"></i> Copy
+                </button>
+                <button class="btn btn-outline-light btn-sm fw-semibold px-2 px-md-3 py-2 flex-fill" onclick="exportExecutivePDF()">
+                  <i class="fa-solid fa-file-pdf me-1 text-danger"></i> PDF
+                </button>
+                <button class="btn btn-outline-info btn-sm fw-semibold px-2 px-md-3 py-2 flex-fill" data-bs-toggle="modal" data-bs-target="#${{lead.hs_modal_id}}">
+                  <i class="fa-solid fa-barcode me-1"></i> HS Codes
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2235,7 +2292,10 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
         }}
       }});
 
-      document.getElementById('radarCount').innerText = visibleCount;
+      const countEl = document.getElementById('radarCount');
+      if (countEl) countEl.innerText = visibleCount;
+      const mobCountEl = document.getElementById('mobileRadarCount');
+      if (mobCountEl) mobCountEl.innerText = visibleCount;
     }}
 
     function selectFilterCard(cat, elem) {{
