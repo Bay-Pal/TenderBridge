@@ -182,13 +182,13 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
              data-urgency="{urgency_level}"
              data-search="{comp.lower()} {items.lower()} {hs_codes.lower()} {source.lower()}"
              onclick="selectLead({i}, true)">
-          <div class="d-flex justify-content-between align-items-center mb-1">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-1">
             <span class="badge {badge_cls} px-2 py-1" style="font-size: 0.7rem;"><i class="fa-solid {badge_icon} me-1"></i> {badge_text}</span>
             <span class="badge {pulse_badge} px-2 py-1 small fw-bold cursor-pointer" onclick="showTimingCalculation(event, {i})" title="Click to view Month 0 timing & mathematical calculation">{status_tag} <i class="fa-solid fa-circle-question ms-1" style="font-size: 0.65rem;"></i></span>
           </div>
           <div class="d-flex justify-content-between align-items-baseline mb-1">
-            <h4 class="h6 fw-bold text-dark mb-0 text-truncate company-radar-title" title="{comp}">{comp}</h4>
-            <span class="badge bg-danger-subtle text-danger fw-bold small"><i class="fa-solid fa-bullseye me-1"></i> {score_val}%</span>
+            <h4 class="h6 fw-bold text-dark mb-0 text-truncate company-radar-title flex-grow-1" title="{comp}">{comp}</h4>
+            <span class="badge bg-danger-subtle text-danger fw-bold small flex-shrink-0 ms-1"><i class="fa-solid fa-bullseye me-1"></i> {score_val}%</span>
           </div>
           <p class="text-secondary small mb-2 text-truncate" style="font-size: 0.78rem;">{items[:65]}</p>
           <div class="d-flex justify-content-between align-items-center pt-2 border-top small text-muted" style="font-size: 0.73rem;">
@@ -204,7 +204,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
         <div class="lead-card p-4 h-100 d-flex flex-column justify-content-between">
           <div>
             <!-- Header Badge & Location -->
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-2">
               <span class="badge badge-source {badge_cls}">
                 <i class="fa-solid {badge_icon} me-1"></i> {badge_text}
               </span>
@@ -1306,10 +1306,19 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       --card-bg: #ffffff;
       --body-bg: #f8fafc;
     }}
-    body {{
+    *, *::before, *::after {{
+      box-sizing: border-box;
+    }}
+    html, body {{
       background-color: var(--body-bg);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: #1e293b;
+      overflow-x: hidden !important;
+      width: 100% !important;
+      max-width: 100vw !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-text-size-adjust: 100%;
     }}
     .navbar-hero {{
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -1348,6 +1357,9 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       transition: all 0.15s ease-in-out;
       cursor: pointer;
       border-left: 3px solid transparent !important;
+      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
     }}
     .radar-card:hover {{
       background-color: #f8fafc !important;
@@ -1542,6 +1554,14 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       .navbar-hero h1 {{ font-size: 1.15rem !important; }}
       .navbar-hero .btn {{ white-space: nowrap; font-size: 0.75rem; }}
 
+      main.container {{
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        padding-bottom: 95px !important; /* Prevents Safari floating URL bar from covering bottom content */
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }}
+
       /* Mobile Workstation Tab Switching */
       .mobile-tab-pane {{
         display: none !important;
@@ -1558,7 +1578,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       .stat-lbl {{ font-size: 0.65rem; }}
 
       /* Radar List Height on Mobile */
-      .radar-scroll-list {{ max-height: 520px !important; }}
+      .radar-scroll-list {{ max-height: 520px !important; width: 100% !important; overflow-x: hidden !important; }}
 
       /* Deal Room Header Mobile */
       .deal-room-header h3 {{ font-size: 1.05rem !important; }}
@@ -1818,6 +1838,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
         if (tabBtnDeal) {{
           tabBtnDeal.className = 'btn btn-sm btn-light fw-bold w-50 py-2 rounded-2 text-dark';
         }}
+        window.scrollTo({{ top: 0, behavior: 'smooth' }});
       }} else {{
         if (dealCol) dealCol.classList.add('active');
         if (radarCol) radarCol.classList.remove('active');
@@ -1827,8 +1848,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
         if (tabBtnRadar) {{
           tabBtnRadar.className = 'btn btn-sm btn-light fw-bold w-50 py-2 rounded-2 text-dark';
         }}
-        // Scroll to top of Deal Room on mobile
-        window.scrollTo({{ top: 100, behavior: 'smooth' }});
+        // Scroll cleanly to the very top so no notch or status-bar overlap occurs
+        window.scrollTo({{ top: 0, behavior: 'smooth' }});
       }}
     }}
 
