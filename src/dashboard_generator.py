@@ -1640,36 +1640,35 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
   <!-- Top Hero Bar -->
   <header class="navbar-hero mb-3 mb-md-4">
     <div class="container">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 gap-md-3">
-        <div class="w-100 d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center gap-2">
-            <span class="fs-4 text-primary"><i class="fa-solid fa-bridge-water"></i></span>
-            <h1 class="h4 fw-bold mb-0 text-white">TenderBridge Intelligence</h1>
-            <span class="badge bg-primary-subtle text-primary fw-bold ms-1" style="font-size: 0.7rem;">Phase 2</span>
-          </div>
+      <div class="d-flex flex-column align-items-start gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="fs-4 text-primary"><i class="fa-solid fa-bridge-water"></i></span>
+          <h1 class="h4 fw-bold mb-0 text-white">TenderBridge Intelligence</h1>
+          <span class="badge bg-primary-subtle text-primary fw-bold ms-1" style="font-size: 0.7rem;">Phase 2</span>
         </div>
         
-        <div class="nav-actions-bar d-flex flex-wrap align-items-center gap-2 w-100 w-md-auto pt-1">
+        <!-- Action buttons placed directly under the title in a clean single row -->
+        <div class="nav-actions-bar d-flex flex-wrap align-items-center gap-2 pt-1 w-100">
           <!-- View Mode Switcher -->
           <div class="btn-group bg-dark-subtle p-1 rounded-3 flex-shrink-0" role="group" aria-label="View Switcher">
-            <button type="button" id="viewBtnWorkstation" class="btn btn-sm btn-primary fw-bold px-2 px-md-3 py-1" onclick="setViewMode('workstation')">
+            <button type="button" id="viewBtnWorkstation" class="btn btn-sm btn-primary fw-bold px-3 py-1" onclick="setViewMode('workstation')">
               <i class="fa-solid fa-desktop me-1"></i> Workstation
             </button>
-            <button type="button" id="viewBtnGrid" class="btn btn-sm btn-outline-light fw-bold px-2 px-md-3 py-1" onclick="setViewMode('grid')">
+            <button type="button" id="viewBtnGrid" class="btn btn-sm btn-outline-light fw-bold px-3 py-1" onclick="setViewMode('grid')">
               <i class="fa-solid fa-grip me-1"></i> Card Grid
             </button>
           </div>
 
-          <button type="button" class="btn btn-outline-light btn-sm fw-semibold px-2 px-md-3 py-1 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#sourcesModal">
+          <button type="button" id="viewBtnArch" class="btn btn-outline-warning btn-sm fw-bold px-3 py-1 flex-shrink-0 text-white" style="background: rgba(234, 179, 8, 0.18); border-color: #eab308;" onclick="setViewMode('architecture')">
+            <i class="fa-solid fa-bolt-lightning me-1 text-warning"></i> Platform Flow
+          </button>
+
+          <button type="button" class="btn btn-outline-light btn-sm fw-semibold px-3 py-1 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#sourcesModal">
             <i class="fa-solid fa-database me-1 text-info"></i> Sources
           </button>
           
-          <button id="refreshBtn" class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-1 flex-shrink-0 shadow-sm" onclick="triggerRefresh()">
+          <button id="refreshBtn" class="btn btn-primary btn-sm fw-bold px-3 py-1 flex-shrink-0 shadow-sm" onclick="triggerRefresh()">
             <i class="fa-solid fa-rotate me-1" id="refreshIcon"></i> Refresh
-          </button>
-
-          <button type="button" id="viewBtnArch" class="btn btn-outline-warning btn-sm fw-bold px-2 px-md-3 py-1 flex-shrink-0 text-white" style="background: rgba(234, 179, 8, 0.18); border-color: #eab308;" onclick="setViewMode('architecture')">
-            <i class="fa-solid fa-bolt-lightning me-1 text-warning"></i> Platform Flow
           </button>
         </div>
       </div>
