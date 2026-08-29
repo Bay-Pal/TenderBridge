@@ -577,10 +577,74 @@ def enrich_company_trade_profile(company_name, idx=0):
     }
 
 
+def format_generic_portfolio_categories(items, hs_codes=""):
+    """
+    Translates raw customs descriptions / tender items into clean, generic B2B product categories
+    to sound consultative, professional, and non-suspicious.
+    """
+    text = (items + " " + hs_codes).lower()
+    categories = []
+    
+    if any(k in text for k in ["catheter", "foley", "nelaton", "urological"]):
+        categories.append("urinary catheters")
+    if any(k in text for k in ["suture", "petcryl", "needle", "pgla", "chromic"]):
+        categories.append("surgical sutures")
+    if any(k in text for k in ["dressing", "plaster", "gauze", "bandage", "cotton", "swab"]):
+        categories.append("wound care dressings")
+    if any(k in text for k in ["infusion", "giving", "iv ", "cannula"]):
+        categories.append("IV infusion giving sets")
+    if any(k in text for k in ["glove", "latex", "surgical glove", "examination glove"]):
+        categories.append("sterile surgical & exam gloves")
+    if any(k in text for k in ["syringe", "hypodermic", "auto-disable", "2ml", "5ml"]):
+        categories.append("auto-disable & hypodermic syringes")
+    if any(k in text for k in ["biopsy", "coaxial"]):
+        categories.append("tissue sampling needles")
+    if any(k in text for k in ["electrosurgical", "cautery", "pencil", "tip"]):
+        categories.append("specialized surgical instruments")
+    if any(k in text for k in ["dental", "scaler", "handpiece"]):
+        categories.append("dental instruments")
+    if any(k in text for k in ["bed", "furniture", "theatre", "table"]):
+        categories.append("hospital ward furniture")
+    if any(k in text for k in ["antibiotic", "amoxicillin", "ceftriaxone", "paracetamol", "medicament", "tablet", "vial"]):
+        categories.append("essential hospital medicaments")
+
+    if not categories:
+        categories = ["critical care consumables", "wound care dressings", "hospital surgical supplies"]
+    elif len(categories) == 1:
+        categories.append("sterile surgical consumables")
+        categories.append("wound care supplies")
+        
+    return categories
+
+
+def format_natural_sourcing_hubs(sourcing_str):
+    """Converts raw sourcing strings into natural consultative hub phrasing."""
+    if not sourcing_str:
+        return "China, India, and Dubai"
+    clean = sourcing_str.lower()
+    hubs = []
+    if "china" in clean:
+        hubs.append("Zhejiang and Jiangsu")
+    if "india" in clean:
+        hubs.append("India")
+    if "uae" in clean or "dubai" in clean:
+        hubs.append("Dubai")
+    if "south africa" in clean:
+        hubs.append("South Africa")
+    if not hubs:
+        return "major international manufacturing hubs"
+    if len(hubs) == 1:
+        return hubs[0]
+    elif len(hubs) == 2:
+        return f"{hubs[0]} and {hubs[1]}"
+    else:
+        return f"{', '.join(hubs[:-1])}, and {hubs[-1]}"
+
+
 def compute_deal_engine(lead, trade_data, idx):
     """
     Computes Month 0 urgency countdown, factory landed cost arbitrage, 
-    volume estimations, and pitch script tailored to product categories.
+    volume estimations, and highly consultative, non-suspicious B2B pitch scripts.
     """
     items = (lead.get("items", "") or "").lower()
     score = trade_data.get("buyer_logic", {}).get("score", 88)
@@ -689,28 +753,36 @@ def compute_deal_engine(lead, trade_data, idx):
     md_name = contacts.get("managing_director", "Managing Director")
     proc_name = contacts.get("procurement_lead", "Head of Procurement")
 
+    # Clean generic categories and hubs (Image 2 style)
+    portfolio_list = format_generic_portfolio_categories(lead.get("items", ""), lead.get("top_hs_codes", ""))
+    portfolio_str = ", ".join(portfolio_list[:-1]) + f", and {portfolio_list[-1]}" if len(portfolio_list) > 1 else portfolio_list[0]
+    portfolio_short = ", ".join(portfolio_list[:3])
+    sourcing_hubs = format_natural_sourcing_hubs(lead.get("sourcing_countries", ""))
+
+    # 3. High-Converting, Consultative B2B Outreach Message (Image 2 Replica)
     whatsapp_pitch = (
-        f"Hello {proc_name}, regarding {comp_name}'s supply contract for {lead.get('items', 'hospital supplies')[:45]} ({ref}): "
-        f"We are direct OEM medical equipment & consumable manufacturers. We can supply your equivalent {unit_product} "
-        f"at {savings_pct}% lower landed costs (${oem_cost:.2f} CIF {port} vs typical ${incumbent_cost:.2f}), creating an "
-        f"extra +${total_margin_gain:,} USD in contract margin for your team. Could we send a certified sample pack to your office this week?"
+        f"Hi {proc_name}, hope you are well. Reaching out because we specialize in manufacturing high-quality "
+        f"medical consumables and surgical supplies (including {portfolio_short}). Given {comp_name}'s strong distribution "
+        f"across critical care facilities in Malawi, we can help streamline your supply chain with direct-from-manufacturer "
+        f"CIF pricing to {port} to optimize your margins. Are you open to a brief 5-minute introductory call next week "
+        f"to see how our catalog and pricing compare to your current suppliers?"
     )
 
     import urllib.parse
     whatsapp_url = f"https://wa.me/{clean_phone}?text={urllib.parse.quote(whatsapp_pitch)}" if clean_phone else f"https://api.whatsapp.com/send?text={urllib.parse.quote(whatsapp_pitch)}"
     
-    email_subject = f"OEM Factory Sourcing: CIF Landed Cost Arbitrage for {ref} ({comp_name})"
+    email_subject = f"Streamlining your medical supply chain ({portfolio_short.title()})"
     email_body = (
-        f"Dear {proc_name} & {md_name},\n\n"
-        f"Regarding {comp_name}'s recent award for {lead.get('items', 'Medical Consumables')} under {ref}:\n\n"
-        f"We are a direct CE & ISO 13485 certified medical manufacturer supplying high-grade clinical container lots.\n"
-        f"We can deliver {unit_product} at ${oem_cost:.2f} CIF {port} (compared to typical landed market costs of ${incumbent_cost:.2f}), generating a projected margin expansion of +${total_margin_gain:,} USD on this lot.\n\n"
-        f"Product Specification & Compliance:\n"
-        f"• SKU: {oem_sku}\n"
-        f"• Standard Lead Time: 35–42 days express shipment to {port}\n"
-        f"• Certifications: CE, ISO 13485, WHO-PQS\n\n"
-        f"Could we courier a physical sample pack and technical compliance dossier to your office in {contacts.get('physical_address', 'Malawi')} this week?\n\n"
-        f"Best regards,\nOEM Global Sourcing Directorate"
+        f"Hi {proc_name},\n\n"
+        f"I hope this message finds you well.\n\n"
+        f"I am reaching out because we specialize in manufacturing and supplying high-quality medical consumables and surgical instruments. "
+        f"Given {comp_name}'s extensive portfolio in distributing critical care and surgical supplies—including {portfolio_str}—I believe we can add significant value to your supply chain.\n\n"
+        f"We understand the logistical coordination required to source across major hubs like {sourcing_hubs}. We can streamline this process for you by offering:\n\n"
+        f"• Consolidated Sourcing: A single, certified source for both your high-volume consumables ({portfolio_short}) and specialized medical devices.\n"
+        f"• Competitive Pricing: Direct-from-manufacturer CIF rates to {port} to optimize your margins across your supply lines.\n"
+        f"• Uncompromised Quality: Full international regulatory compliance (CE, ISO 13485, WHO-PQS) matching the exact standards of the brands you currently distribute.\n\n"
+        f"Are you open to a brief, 5-minute introductory call next week to see how our catalog and pricing stack up against your current suppliers?\n\n"
+        f"Best regards,\nOEM Global Sourcing Directorate\nDirect Communication Channel"
     )
     mailto_url = f"mailto:{corp_email}?subject={urllib.parse.quote(email_subject)}&body={urllib.parse.quote(email_body)}"
     tel_url = f"tel:+{clean_phone}" if clean_phone else "tel:+265888000000"
@@ -741,7 +813,10 @@ def compute_deal_engine(lead, trade_data, idx):
         "email_body": email_body,
         "mailto_url": mailto_url,
         "tel_url": tel_url,
-        "contacts": contacts
+        "contacts": contacts,
+        "portfolio_categories": portfolio_str,
+        "portfolio_short": portfolio_short,
+        "sourcing_hubs": sourcing_hubs
     }
 
 

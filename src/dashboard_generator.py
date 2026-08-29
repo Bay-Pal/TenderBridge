@@ -2314,7 +2314,42 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       document.getElementById('calcTotalMargin').innerText = '+$' + Number(totalMarginGain).toLocaleString() + ' USD';
     }}
 
-    // WhatsApp Pitch Launcher (Direct wa.me link with real phone number)
+    // Helper to format generic product categories from products and HS codes
+    function getGenericCategories(productsStr, hsStr) {{
+      const text = (productsStr + ' ' + (hsStr || '')).toLowerCase();
+      const cats = [];
+      if (text.includes('catheter') || text.includes('foley') || text.includes('urological')) cats.push('urinary catheters');
+      if (text.includes('suture') || text.includes('petcryl') || text.includes('pgla')) cats.push('surgical sutures');
+      if (text.includes('dressing') || text.includes('plaster') || text.includes('gauze') || text.includes('swab')) cats.push('wound care dressings');
+      if (text.includes('infusion') || text.includes('giving') || text.includes('iv ') || text.includes('cannula')) cats.push('IV infusion giving sets');
+      if (text.includes('glove') || text.includes('latex') || text.includes('surgical')) cats.push('sterile surgical & exam gloves');
+      if (text.includes('syringe') || text.includes('needle') || text.includes('hypodermic')) cats.push('auto-disable & hypodermic syringes');
+      if (text.includes('biopsy') || text.includes('coaxial')) cats.push('tissue sampling needles');
+      if (text.includes('electrosurgical') || text.includes('cautery') || text.includes('pencil')) cats.push('specialized surgical instruments');
+      if (text.includes('dental') || text.includes('scaler')) cats.push('dental instruments');
+      if (text.includes('bed') || text.includes('furniture')) cats.push('hospital ward furniture');
+      if (text.includes('antibiotic') || text.includes('amoxicillin') || text.includes('paracetamol')) cats.push('essential hospital medicaments');
+      
+      if (cats.length === 0) return 'critical care consumables, wound care dressings, and hospital surgical supplies';
+      if (cats.length === 1) return cats[0] + ' and critical care supplies';
+      return cats.slice(0, 3).join(', ');
+    }}
+
+    // Helper to format natural sourcing hubs
+    function getNaturalSourcingHubs(sourcingStr) {{
+      const text = (sourcingStr || '').toLowerCase();
+      const hubs = [];
+      if (text.includes('china')) hubs.push('Zhejiang and Jiangsu');
+      if (text.includes('india')) hubs.push('India');
+      if (text.includes('uae') || text.includes('dubai')) hubs.push('Dubai');
+      if (text.includes('south africa')) hubs.push('South Africa');
+      if (hubs.length === 0) return 'major international manufacturing hubs';
+      if (hubs.length === 1) return hubs[0];
+      if (hubs.length === 2) return hubs[0] + ' and ' + hubs[1];
+      return hubs.slice(0, -1).join(', ') + ', and ' + hubs[hubs.length - 1];
+    }}
+
+    // WhatsApp Pitch Launcher (Consultative outreach matching Image 2)
     function openWhatsAppPitch() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
@@ -2323,13 +2358,10 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const contacts = lead.contacts || (deal.contacts || {{}});
       const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '';
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
+      const port = lead.primary_port || 'border';
+      const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
 
-      const incumbentCost = deal.landed_cost || 0.28;
-      const oemCost = (incumbentCost * (1 - currentDiscount / 100)).toFixed(2);
-      const unitSavings = (incumbentCost - oemCost).toFixed(2);
-      const totalMarginGain = Math.round(unitSavings * currentUnits);
-
-      const msg = `Hello ${{procName}}, regarding ${{lead.company}}'s supply contract for ${{lead.products}} (${{lead.tender_ref}}): We are direct OEM medical consumable manufacturers. We can supply your equivalent ${{deal.unit_product || 'hospital supplies'}} at ${{currentDiscount}}% lower landed costs ($${{oemCost}} CIF ${{lead.primary_port || 'border'}} vs typical $${{incumbentCost.toFixed(2)}}), creating an extra +$${{Number(totalMarginGain).toLocaleString()}} USD in contract margin for your team. Could we send a certified sample pack to your office this week?`;
+      const msg = `Hi ${{procName}}, hope you are well. Reaching out because we specialize in manufacturing high-quality medical consumables and surgical supplies (including ${{genericCats}}). Given ${{lead.company}}'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with direct-from-manufacturer CIF pricing to ${{port}} to optimize your margins. Are you open to a brief 5-minute introductory call next week to see how our catalog and pricing compare to your current suppliers?`;
 
       let url = '';
       if (cleanPhone) {{
@@ -2340,7 +2372,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       window.open(url, '_blank');
     }}
 
-    // 1-Click Email Quotation Launcher
+    // 1-Click Email Quotation Launcher (Cold outreach email matching Image 2)
     function openEmailQuote() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
@@ -2350,20 +2382,18 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const corpEmail = contacts.corporate_email || lead.corporate_email || 'procurement@distributor-mw.com';
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
       const mdName = contacts.managing_director || lead.managing_director || 'Managing Director';
+      const port = lead.primary_port || 'Songwe Border';
+      const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
+      const sourcingHubs = getNaturalSourcingHubs(lead.sourcing_countries || '');
 
-      const incumbentCost = deal.landed_cost || 0.28;
-      const oemCost = (incumbentCost * (1 - currentDiscount / 100)).toFixed(2);
-      const unitSavings = (incumbentCost - oemCost).toFixed(2);
-      const totalMarginGain = Math.round(unitSavings * currentUnits);
-
-      const subject = `OEM Factory Sourcing: CIF Landed Cost Arbitrage for ${{lead.tender_ref}} (${{lead.company}})`;
-      const body = `Dear ${{procName}} & ${{mdName}},\n\nRegarding ${{lead.company}}'s recent award for ${{lead.products}} under ${{lead.tender_ref}}:\n\nWe are a direct CE & ISO 13485 certified medical manufacturer supplying high-grade clinical container lots.\nWe can deliver ${{deal.unit_product || 'hospital supplies'}} at $${{oemCost}} CIF ${{lead.primary_port || 'Songwe Border'}} (compared to typical landed market costs of $${{incumbentCost.toFixed(2)}}), generating a projected margin expansion of +$${{Number(totalMarginGain).toLocaleString()}} USD on this lot.\n\nProduct Specification & Compliance:\n• SKU: ${{deal.oem_sku || 'Direct Factory Supply'}}\n• Volume: ${{Number(currentUnits).toLocaleString()}} Pcs\n• Certifications: CE, ISO 13485, WHO-PQS\n\nCould we courier a physical sample pack and technical compliance dossier to your office in ${{contacts.physical_address || 'Malawi'}} this week?\n\nBest regards,\nOEM Global Sourcing Directorate`;
+      const subject = `Streamlining your medical supply chain (${{genericCats.split(',')[0].trim().replace(/^./, c => c.toUpperCase())}} & Surgical Supplies)`;
+      const body = `Hi ${{procName}},\n\nI hope this message finds you well.\n\nI am reaching out because we specialize in manufacturing and supplying high-quality medical consumables and surgical instruments. Given ${{lead.company}}'s extensive portfolio in importing critical care and surgical supplies—including ${{genericCats}}—I believe we can add significant value to your supply chain.\n\nWe understand the logistical coordination required to source across major hubs like ${{sourcingHubs}}. We can streamline this process for you by offering:\n\n• Consolidated Sourcing: A single, certified source for both your high-volume consumables and specialized medical devices.\n• Competitive Pricing: Direct-from-manufacturer CIF rates to ${{port}} to optimize your margins across your supply lines.\n• Uncompromised Quality: Full international regulatory compliance (CE, ISO 13485, WHO-PQS) matching the exact standards of the brands you currently distribute.\n\nAre you open to a brief, 5-minute introductory call next week to see how our catalog and pricing stack up against your current suppliers?\n\nBest regards,\nOEM Global Sourcing Directorate\nDirect Communication Channel`;
 
       const mailtoUrl = `mailto:${{corpEmail}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
       window.location.href = mailtoUrl;
     }}
 
-    // Copy Deal Pitch to Clipboard
+    // Copy Deal Pitch to Clipboard (Consultative message)
     function copyDealPitch() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
@@ -2371,16 +2401,13 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const deal = lead.deal_engine || {{}};
       const contacts = lead.contacts || (deal.contacts || {{}});
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Team';
+      const port = lead.primary_port || 'border';
+      const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
 
-      const incumbentCost = deal.landed_cost || 0.28;
-      const oemCost = (incumbentCost * (1 - currentDiscount / 100)).toFixed(2);
-      const unitSavings = (incumbentCost - oemCost).toFixed(2);
-      const totalMarginGain = Math.round(unitSavings * currentUnits);
-
-      const msg = `Hello ${{procName}}, regarding ${{lead.company}}'s supply contract for ${{lead.products}} (${{lead.tender_ref}}): We are direct OEM medical consumable manufacturers. We can supply your equivalent ${{deal.unit_product || 'hospital supplies'}} at ${{currentDiscount}}% lower landed costs ($${{oemCost}} CIF ${{lead.primary_port || 'border'}} vs typical $${{incumbentCost.toFixed(2)}}), creating an extra +$${{Number(totalMarginGain).toLocaleString()}} USD in contract margin for your team. Could we send a certified sample pack to your office this week?`;
+      const msg = `Hi ${{procName}}, hope you are well. Reaching out because we specialize in manufacturing high-quality medical consumables and surgical supplies (including ${{genericCats}}). Given ${{lead.company}}'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with direct-from-manufacturer CIF pricing to ${{port}} to optimize your margins. Are you open to a brief 5-minute introductory call next week to see how our catalog and pricing compare to your current suppliers?`;
 
       navigator.clipboard.writeText(msg).then(() => {{
-        showToast(`Copied WhatsApp pitch for ${{lead.company}}!`);
+        showToast(`Copied consultative pitch for ${{lead.company}}!`);
       }});
     }}
 
