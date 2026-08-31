@@ -292,8 +292,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                 </button>
               </div>
               <div class="col-6">
-                <button class="btn btn-primary btn-sm w-100 btn-action shadow-sm" onclick="copyPitch('{comp}', '{items[:40]}', '{sourcing}')">
-                  <i class="fa-solid fa-paper-plane me-1"></i> Copy Pitch
+                <button class="btn btn-primary btn-sm w-100 btn-action shadow-sm" onclick="selectLead({i}); openPitchModal('whatsapp');">
+                  <i class="fa-solid fa-paper-plane me-1"></i> Contact & Pitch Hub
                 </button>
               </div>
             </div>
@@ -486,8 +486,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
               <i class="fa-brands fa-linkedin me-1"></i> LinkedIn
             </a>
           </div>
-          <button class="btn btn-primary btn-sm fw-bold px-3" onclick="copyPitch('{comp}', '{items[:35]}', '{sourcing}')">
-            <i class="fa-solid fa-paper-plane me-1"></i> Copy Pitch Script
+          <button class="btn btn-success btn-sm fw-bold px-3" onclick="selectLead({i}); openPitchModal('whatsapp');" data-bs-dismiss="modal">
+            <i class="fa-solid fa-paper-plane me-1"></i> Contact & Pitch Hub
           </button>
         </div>
 
@@ -875,6 +875,126 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
 
         <div class="modal-footer bg-white py-2 px-4 justify-content-between">
           <span class="small text-muted font-monospace"><i class="fa-solid fa-shield-check text-success me-1"></i> TenderBridge Procurement Strategy Engine</span>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+    """
+
+    # ─── 7.5. CENTRALIZED 1-CLICK PITCH & OUTREACH DISPATCH MODAL ─────────────
+    pitch_dispatch_modal_html = """
+  <div class="modal fade" id="pitchDispatchModal" tabindex="-1" aria-labelledby="pitchDispatchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        <!-- Modal Header -->
+        <div class="modal-header bg-dark text-white py-3 px-4">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge bg-success px-2"><i class="fa-solid fa-paper-plane me-1"></i> 1-Click Outreach Hub</span>
+              <span class="badge bg-primary px-2" id="pitchModalCountryBadge">Verified Distributor</span>
+            </div>
+            <h5 class="modal-title h5 fw-bold mb-0 text-white" id="pitchModalCompanyTitle">
+              Company Name
+            </h5>
+            <span class="small text-slate-300 opacity-75" id="pitchModalSubTitle">
+              Target Officer: Head of Procurement
+            </span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-3 p-md-4 bg-light">
+          
+          <!-- Quick Contact Banner -->
+          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 bg-white border-start border-primary border-4">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+              <div>
+                <div class="fw-bold text-dark" id="pitchModalContactName">Chifundo Mwale (Head of Procurement)</div>
+                <div class="small text-muted" id="pitchModalContactDetails">Direct Mobile: +265 888 342 109 | Email: procurement@distributor-mw.com</div>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="#" id="pitchModalCallBtn" class="btn btn-outline-dark btn-sm fw-semibold">
+                  <i class="fa-solid fa-phone me-1 text-primary"></i> Direct Call
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Channel Selector Nav Pills -->
+          <ul class="nav nav-pills nav-fill bg-white p-1 rounded-3 shadow-sm border mb-3" id="pitchChannelTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active fw-bold py-2 text-success" id="tab-whatsapp-btn" data-bs-toggle="pill" data-bs-target="#tab-whatsapp-pane" type="button" role="tab">
+                <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp Message
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link fw-bold py-2 text-primary" id="tab-email-btn" data-bs-toggle="pill" data-bs-target="#tab-email-pane" type="button" role="tab">
+                <i class="fa-solid fa-envelope me-1"></i> Email Quotation
+              </button>
+            </li>
+          </ul>
+
+          <!-- Tab Content -->
+          <div class="tab-content" id="pitchChannelTabContent">
+            
+            <!-- WhatsApp Tab Pane -->
+            <div class="tab-pane fade show active" id="tab-whatsapp-pane" role="tabpanel">
+              <div class="card border-0 shadow-sm rounded-3 bg-white p-3 mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="small fw-bold text-muted text-uppercase" style="font-size: 0.72rem;">
+                    <i class="fa-brands fa-whatsapp text-success me-1"></i> Formatted WhatsApp Outreach Message
+                  </span>
+                  <span class="badge bg-success-subtle text-success small">Formatted (*bold* & breaks)</span>
+                </div>
+                <textarea class="form-control font-monospace border-0 bg-light p-3 rounded-3 small text-dark" id="pitchModalWhatsAppText" rows="10" readonly style="resize: vertical; font-size: 0.82rem; line-height: 1.5;"></textarea>
+              </div>
+
+              <div class="d-flex flex-column flex-sm-row gap-2">
+                <button type="button" class="btn btn-success fw-bold flex-fill py-2 shadow-sm" onclick="dispatchModalWhatsApp()">
+                  <i class="fa-brands fa-whatsapp me-1"></i> Open & Send in WhatsApp (wa.me)
+                </button>
+                <button type="button" class="btn btn-primary fw-bold flex-fill py-2 shadow-sm" onclick="copyModalWhatsApp()">
+                  <i class="fa-solid fa-copy me-1"></i> Copy WhatsApp Message
+                </button>
+              </div>
+            </div>
+
+            <!-- Email Tab Pane -->
+            <div class="tab-pane fade" id="tab-email-pane" role="tabpanel">
+              <div class="card border-0 shadow-sm rounded-3 bg-white p-3 mb-3">
+                <div class="mb-2">
+                  <label class="form-label small fw-bold text-muted mb-1" style="font-size: 0.72rem;">TO RECIPIENT:</label>
+                  <input type="text" class="form-control form-control-sm font-monospace bg-light" id="pitchModalEmailTo" readonly />
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold text-muted mb-1" style="font-size: 0.72rem;">SUBJECT LINE:</label>
+                  <input type="text" class="form-control form-control-sm fw-bold bg-light" id="pitchModalEmailSubject" readonly />
+                </div>
+                <div>
+                  <label class="form-label small fw-bold text-muted mb-1" style="font-size: 0.72rem;">OFFICIAL QUOTATION BODY:</label>
+                  <textarea class="form-control font-monospace bg-light p-3 rounded-3 small text-dark" id="pitchModalEmailBody" rows="10" readonly style="resize: vertical; font-size: 0.82rem; line-height: 1.5;"></textarea>
+                </div>
+              </div>
+
+              <div class="d-flex flex-column flex-sm-row gap-2">
+                <button type="button" class="btn btn-primary fw-bold flex-fill py-2 shadow-sm" onclick="dispatchModalEmail()">
+                  <i class="fa-solid fa-envelope me-1"></i> Open in Email Client (mailto:)
+                </button>
+                <button type="button" class="btn btn-outline-primary fw-bold flex-fill py-2 shadow-sm" onclick="copyModalEmail()">
+                  <i class="fa-solid fa-copy me-1"></i> Copy Email Content
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer bg-white py-2 px-4 justify-content-between">
+          <span class="small text-muted font-monospace"><i class="fa-solid fa-shield-check text-success me-1"></i> 1-Click Multi-Channel Dispatch Terminal</span>
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
         </div>
 
@@ -1311,7 +1431,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
 
     cards_str = "\n".join(cards_html)
     radar_items_str = "\n".join(radar_items_html)
-    all_modals_str = sources_modal_html + "\n" + timing_modal_html + "\n" + "\n".join(bio_modals_html) + "\n" + "\n".join(hs_modals_html)
+    all_modals_str = sources_modal_html + "\n" + timing_modal_html + "\n" + pitch_dispatch_modal_html + "\n" + "\n".join(bio_modals_html) + "\n" + "\n".join(hs_modals_html)
 
     # ─── 9. MASTER HTML TEMPLATE ─────────────────────────────────────────────
     full_html = f"""<!DOCTYPE html>
@@ -1968,13 +2088,16 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
               </div>
             </div>
 
-            <!-- Action buttons: Full-width WhatsApp on mobile + secondary button row -->
+            <!-- Action buttons: 1-Click Outreach Hub Modal + Quick Actions -->
             <div class="d-flex flex-column flex-sm-row flex-wrap gap-2 w-100 w-md-auto">
-              <button class="btn btn-success btn-sm fw-bold px-3 py-2 shadow-sm flex-grow-1 flex-md-grow-0" onclick="openWhatsAppPitch()">
-                <i class="fa-brands fa-whatsapp me-1"></i> Pitch on WhatsApp
+              <button class="btn btn-success btn-sm fw-bold px-3 py-2 shadow-sm flex-grow-1 flex-md-grow-0" onclick="openPitchModal('whatsapp')">
+                <i class="fa-solid fa-paper-plane me-1"></i> Contact & Pitch Hub
               </button>
               <div class="d-flex gap-2 flex-grow-1 flex-md-grow-0">
-                <button class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-2 shadow-sm flex-fill" onclick="copyDealPitch()">
+                <button class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-2 shadow-sm flex-fill" onclick="openPitchModal('email')">
+                  <i class="fa-solid fa-envelope me-1"></i> Email
+                </button>
+                <button class="btn btn-dark btn-sm fw-bold px-2 px-md-3 py-2 shadow-sm flex-fill" onclick="copyDealPitch()">
                   <i class="fa-solid fa-copy me-1"></i> Copy
                 </button>
                 <button class="btn btn-outline-light btn-sm fw-semibold px-2 px-md-3 py-2 flex-fill" onclick="exportExecutivePDF()">
@@ -2232,10 +2355,10 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                     </div>
                   </div>
                   <div class="pt-2 mt-2 border-top d-flex gap-2">
-                    <button class="btn btn-success btn-sm flex-fill py-1 fw-semibold" onclick="openWhatsAppPitch()" style="font-size: 0.75rem;">
+                    <button class="btn btn-success btn-sm flex-fill py-1 fw-semibold" onclick="openPitchModal('whatsapp')" style="font-size: 0.75rem;">
                       <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp
                     </button>
-                    <button class="btn btn-outline-success btn-sm flex-fill py-1 fw-semibold" onclick="openEmailQuote()" style="font-size: 0.75rem;">
+                    <button class="btn btn-outline-success btn-sm flex-fill py-1 fw-semibold" onclick="openPitchModal('email')" style="font-size: 0.75rem;">
                       <i class="fa-solid fa-envelope me-1"></i> Email Quote
                     </button>
                   </div>
@@ -2367,19 +2490,84 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       return hubs.slice(0, -1).join(', ') + ', and ' + hubs[hubs.length - 1];
     }}
 
-    // WhatsApp Pitch Launcher (Consultative outreach matching Image 2 with WhatsApp bolding & line breaks)
-    function openWhatsAppPitch() {{
+    // ─── 1-CLICK CENTRALIZED OUTREACH & PITCH DISPATCH HUB ──────────────────
+    function openPitchModal(channel = 'whatsapp') {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
 
       const deal = lead.deal_engine || {{}};
       const contacts = lead.contacts || (deal.contacts || {{}});
       const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '';
-      const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
+      const directPhone = contacts.direct_phone || lead.direct_phone || '+265 888 000 000';
+      const procName = contacts.procurement_lead || lead.procurement_lead || 'Head of Procurement';
+      const procTitle = contacts.procurement_title || lead.procurement_title || 'Head of Procurement';
+      const mdName = contacts.managing_director || lead.managing_director || 'Managing Director';
+      const corpEmail = contacts.corporate_email || lead.corporate_email || 'procurement@distributor-mw.com';
       const port = lead.primary_port || 'Songwe Border';
       const genericCats = getGenericCategories(lead);
+      const sourcingHubs = getNaturalSourcingHubs(lead.sourcing_countries || '');
 
-      const msg = `Hi *${{procName}}*, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *${{genericCats}}*).\n\nGiven *${{lead.company}}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* to *${{port}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
+      // Populate Modal Metadata
+      const compTitleEl = document.getElementById('pitchModalCompanyTitle');
+      const subTitleEl = document.getElementById('pitchModalSubTitle');
+      const contactNameEl = document.getElementById('pitchModalContactName');
+      const contactDetailsEl = document.getElementById('pitchModalContactDetails');
+      const callBtnEl = document.getElementById('pitchModalCallBtn');
+      const countryBadgeEl = document.getElementById('pitchModalCountryBadge');
+
+      if (compTitleEl) compTitleEl.innerText = lead.company;
+      if (subTitleEl) subTitleEl.innerText = `${{lead.institution || 'Medical Procurement'}} • ${{lead.tender_ref || 'Awarded Framework'}}`;
+      if (contactNameEl) contactNameEl.innerText = `${{procName}} (${{procTitle}})`;
+      if (contactDetailsEl) contactDetailsEl.innerText = `Direct Mobile: ${{directPhone}} | Email: ${{corpEmail}} | Hub: ${{contacts.physical_address || lead.physical_address || 'Registered Warehouse'}}`;
+      if (callBtnEl) callBtnEl.href = cleanPhone ? `tel:+${{cleanPhone}}` : 'tel:+265888000000';
+      if (countryBadgeEl) countryBadgeEl.innerText = `${{lead.country || 'Malawi'}} Verified Distributor`;
+
+      // WhatsApp Message Text
+      const waMsg = `Hi *${{procName}}*, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *${{genericCats}}*).\n\nGiven *${{lead.company}}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* to *${{port}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
+      const waInput = document.getElementById('pitchModalWhatsAppText');
+      if (waInput) waInput.value = waMsg;
+
+      // Email Fields
+      const emailSubject = `Streamlining your medical supply chain (${{genericCats.split(',')[0].trim().replace(/^./, c => c.toUpperCase())}} & Surgical Supplies)`;
+      const emailBody = `Hi ${{procName}},\n\nI hope this message finds you well.\n\nI am reaching out because we specialize in manufacturing and supplying high-quality medical consumables and surgical instruments. Given ${{lead.company}}'s extensive portfolio in importing critical care and surgical supplies—including ${{genericCats}}—I believe we can add significant value to your supply chain.\n\nWe understand the logistical coordination required to source across major hubs like ${{sourcingHubs}}. We can streamline this process for you by offering:\n\n• Consolidated Sourcing: A single, certified source for both your high-volume consumables and specialized medical devices.\n• Competitive Pricing: Direct-from-manufacturer CIF rates to ${{port}} to optimize your margins across your supply lines.\n• Uncompromised Quality: Full international regulatory compliance (CE, ISO 13485, WHO-PQS) matching the exact standards of the brands you currently distribute.\n\nAre you open to a brief, 5-minute introductory call next week to see how our catalog and pricing stack up against your current suppliers?\n\nBest regards,\nOEM Global Sourcing Directorate\nDirect Communication Channel`;
+      
+      const emailToEl = document.getElementById('pitchModalEmailTo');
+      const emailSubEl = document.getElementById('pitchModalEmailSubject');
+      const emailBodyEl = document.getElementById('pitchModalEmailBody');
+
+      if (emailToEl) emailToEl.value = corpEmail;
+      if (emailSubEl) emailSubEl.value = emailSubject;
+      if (emailBodyEl) emailBodyEl.value = emailBody;
+
+      // Switch Tab
+      if (channel === 'email') {{
+        const emailTabBtn = document.getElementById('tab-email-btn');
+        if (emailTabBtn) {{
+          const tab = new bootstrap.Tab(emailTabBtn);
+          tab.show();
+        }}
+      }} else {{
+        const waTabBtn = document.getElementById('tab-whatsapp-btn');
+        if (waTabBtn) {{
+          const tab = new bootstrap.Tab(waTabBtn);
+          tab.show();
+        }}
+      }}
+
+      const modalEl = document.getElementById('pitchDispatchModal');
+      if (modalEl) {{
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+      }}
+    }}
+
+    // Dispatch WhatsApp from Modal
+    function dispatchModalWhatsApp() {{
+      const lead = LEADS_DATA[activeLeadIndex];
+      if (!lead) return;
+      const contacts = lead.contacts || (lead.deal_engine?.contacts || {{}});
+      const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '';
+      const msg = document.getElementById('pitchModalWhatsAppText')?.value || '';
 
       let url = '';
       if (cleanPhone) {{
@@ -2390,28 +2578,41 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       window.open(url, '_blank');
     }}
 
-    // 1-Click Email Quotation Launcher (Cold outreach email matching Image 2)
-    function openEmailQuote() {{
-      const lead = LEADS_DATA[activeLeadIndex];
-      if (!lead) return;
-
-      const deal = lead.deal_engine || {{}};
-      const contacts = lead.contacts || (deal.contacts || {{}});
-      const corpEmail = contacts.corporate_email || lead.corporate_email || 'procurement@distributor-mw.com';
-      const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
-      const mdName = contacts.managing_director || lead.managing_director || 'Managing Director';
-      const port = lead.primary_port || 'Songwe Border';
-      const genericCats = getGenericCategories(lead);
-      const sourcingHubs = getNaturalSourcingHubs(lead.sourcing_countries || '');
-
-      const subject = `Streamlining your medical supply chain (${{genericCats.split(',')[0].trim().replace(/^./, c => c.toUpperCase())}} & Surgical Supplies)`;
-      const body = `Hi ${{procName}},\n\nI hope this message finds you well.\n\nI am reaching out because we specialize in manufacturing and supplying high-quality medical consumables and surgical instruments. Given ${{lead.company}}'s extensive portfolio in importing critical care and surgical supplies—including ${{genericCats}}—I believe we can add significant value to your supply chain.\n\nWe understand the logistical coordination required to source across major hubs like ${{sourcingHubs}}. We can streamline this process for you by offering:\n\n• Consolidated Sourcing: A single, certified source for both your high-volume consumables and specialized medical devices.\n• Competitive Pricing: Direct-from-manufacturer CIF rates to ${{port}} to optimize your margins across your supply lines.\n• Uncompromised Quality: Full international regulatory compliance (CE, ISO 13485, WHO-PQS) matching the exact standards of the brands you currently distribute.\n\nAre you open to a brief, 5-minute introductory call next week to see how our catalog and pricing stack up against your current suppliers?\n\nBest regards,\nOEM Global Sourcing Directorate\nDirect Communication Channel`;
-
-      const mailtoUrl = `mailto:${{corpEmail}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
-      window.location.href = mailtoUrl;
+    // Copy WhatsApp from Modal
+    function copyModalWhatsApp() {{
+      const msg = document.getElementById('pitchModalWhatsAppText')?.value || '';
+      navigator.clipboard.writeText(msg).then(() => {{
+        showToast('Copied formatted WhatsApp message!');
+      }});
     }}
 
-    // Copy Deal Pitch to Clipboard (Consultative message with WhatsApp formatting)
+    // Dispatch Email from Modal
+    function dispatchModalEmail() {{
+      const to = document.getElementById('pitchModalEmailTo')?.value || '';
+      const subject = document.getElementById('pitchModalEmailSubject')?.value || '';
+      const body = document.getElementById('pitchModalEmailBody')?.value || '';
+      window.location.href = `mailto:${{to}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+    }}
+
+    // Copy Email from Modal
+    function copyModalEmail() {{
+      const body = document.getElementById('pitchModalEmailBody')?.value || '';
+      navigator.clipboard.writeText(body).then(() => {{
+        showToast('Copied full email content!');
+      }});
+    }}
+
+    // WhatsApp Pitch Launcher
+    function openWhatsAppPitch() {{
+      openPitchModal('whatsapp');
+    }}
+
+    // 1-Click Email Quotation Launcher
+    function openEmailQuote() {{
+      openPitchModal('email');
+    }}
+
+    // Copy Deal Pitch to Clipboard
     function copyDealPitch() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
