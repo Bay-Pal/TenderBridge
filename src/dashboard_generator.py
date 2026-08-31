@@ -2316,9 +2316,24 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       document.getElementById('calcTotalMargin').innerText = '+$' + Number(totalMarginGain).toLocaleString() + ' USD';
     }}
 
-    // Helper to format generic product categories from products and HS codes
-    function getGenericCategories(productsStr, hsStr) {{
-      const text = (productsStr + ' ' + (hsStr || '')).toLowerCase();
+    // Helper to format generic product categories from full lead customs and tender portfolio
+    function getGenericCategories(leadOrProducts, hsStr) {{
+      let text = '';
+      if (typeof leadOrProducts === 'object' && leadOrProducts !== null) {{
+        const lead = leadOrProducts;
+        let hsText = '';
+        if (lead.all_hs && Array.isArray(lead.all_hs)) {{
+          hsText = lead.all_hs.map(h => (h.desc || '') + ' ' + (h.code || '')).join(' ');
+        }}
+        let shipText = '';
+        if (lead.recent_shipments && Array.isArray(lead.recent_shipments)) {{
+          shipText = lead.recent_shipments.map(s => s.desc || '').join(' ');
+        }}
+        text = ((lead.products || '') + ' ' + (lead.top_hs_codes || '') + ' ' + hsText + ' ' + shipText).toLowerCase();
+      }} else {{
+        text = ((leadOrProducts || '') + ' ' + (hsStr || '')).toLowerCase();
+      }}
+      
       const cats = [];
       if (text.includes('catheter') || text.includes('foley') || text.includes('urological')) cats.push('urinary catheters');
       if (text.includes('suture') || text.includes('petcryl') || text.includes('pgla')) cats.push('surgical sutures');
@@ -2327,14 +2342,15 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       if (text.includes('glove') || text.includes('latex') || text.includes('surgical')) cats.push('sterile surgical & exam gloves');
       if (text.includes('syringe') || text.includes('needle') || text.includes('hypodermic')) cats.push('auto-disable & hypodermic syringes');
       if (text.includes('biopsy') || text.includes('coaxial')) cats.push('tissue sampling needles');
-      if (text.includes('electrosurgical') || text.includes('cautery') || text.includes('pencil')) cats.push('specialized surgical instruments');
+      if (text.includes('electrosurgical') || text.includes('cautery') || text.includes('pencil') || text.includes('tip')) cats.push('specialized surgical instruments');
       if (text.includes('dental') || text.includes('scaler')) cats.push('dental instruments');
       if (text.includes('bed') || text.includes('furniture')) cats.push('hospital ward furniture');
       if (text.includes('antibiotic') || text.includes('amoxicillin') || text.includes('paracetamol')) cats.push('essential hospital medicaments');
       
       if (cats.length === 0) return 'critical care consumables, wound care dressings, and hospital surgical supplies';
-      if (cats.length === 1) return cats[0] + ' and critical care supplies';
-      return cats.slice(0, 3).join(', ');
+      if (cats.length === 1) return cats[0] + ', sterile surgical consumables, and wound care dressings';
+      if (cats.length <= 4) return cats.slice(0, -1).join(', ') + ', and ' + cats[cats.length - 1];
+      return cats.slice(0, 4).join(', ') + ', and ' + cats[4];
     }}
 
     // Helper to format natural sourcing hubs
@@ -2361,7 +2377,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '';
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
       const port = lead.primary_port || 'Songwe Border';
-      const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
+      const genericCats = getGenericCategories(lead);
 
       const msg = `Hi *${{procName}}*, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *${{genericCats}}*).\n\nGiven *${{lead.company}}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* to *${{port}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
 
@@ -2385,7 +2401,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
       const mdName = contacts.managing_director || lead.managing_director || 'Managing Director';
       const port = lead.primary_port || 'Songwe Border';
-      const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
+      const genericCats = getGenericCategories(lead);
       const sourcingHubs = getNaturalSourcingHubs(lead.sourcing_countries || '');
 
       const subject = `Streamlining your medical supply chain (${{genericCats.split(',')[0].trim().replace(/^./, c => c.toUpperCase())}} & Surgical Supplies)`;
@@ -2404,7 +2420,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const contacts = lead.contacts || (deal.contacts || {{}});
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Team';
       const port = lead.primary_port || 'Songwe Border';
-      const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
+      const genericCats = getGenericCategories(lead);
 
       const msg = `Hi *${{procName}}*, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *${{genericCats}}*).\n\nGiven *${{lead.company}}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* to *${{port}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
 

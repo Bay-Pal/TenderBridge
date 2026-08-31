@@ -753,10 +753,22 @@ def compute_deal_engine(lead, trade_data, idx):
     md_name = contacts.get("managing_director", "Managing Director")
     proc_name = contacts.get("procurement_lead", "Head of Procurement")
 
-    # Clean generic categories and hubs (Image 2 style)
-    portfolio_list = format_generic_portfolio_categories(lead.get("items", ""), lead.get("top_hs_codes", ""))
-    portfolio_str = ", ".join(portfolio_list[:-1]) + f", and {portfolio_list[-1]}" if len(portfolio_list) > 1 else portfolio_list[0]
-    portfolio_short = ", ".join(portfolio_list[:3])
+    # Clean generic categories and hubs (Image 2 style - full customs portfolio aggregation)
+    hs_text = " ".join([h.get("desc", "") + " " + h.get("code", "") for h in trade_data.get("all_hs_codes", [])])
+    shipment_text = " ".join([s.get("desc", "") for s in trade_data.get("recent_shipments", [])])
+    full_product_context = f"{lead.get('items', '')} {lead.get('top_hs_codes', '')} {hs_text} {shipment_text}"
+    
+    portfolio_list = format_generic_portfolio_categories(full_product_context)
+    if len(portfolio_list) >= 4:
+        portfolio_str = ", ".join(portfolio_list[:4]) + f", and {portfolio_list[4]}" if len(portfolio_list) > 4 else ", ".join(portfolio_list[:-1]) + f", and {portfolio_list[-1]}"
+        portfolio_short = ", ".join(portfolio_list[:3]) + f", and {portfolio_list[3]}"
+    elif len(portfolio_list) > 1:
+        portfolio_str = ", ".join(portfolio_list[:-1]) + f", and {portfolio_list[-1]}"
+        portfolio_short = portfolio_str
+    else:
+        portfolio_str = portfolio_list[0]
+        portfolio_short = portfolio_list[0]
+
     sourcing_hubs = format_natural_sourcing_hubs(lead.get("sourcing_countries", ""))
 
     # 3. High-Converting, Consultative B2B Outreach Message (Image 2 Replica with WhatsApp formatting)
