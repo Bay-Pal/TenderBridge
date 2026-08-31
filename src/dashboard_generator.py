@@ -2239,7 +2239,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                 <span>Port Delivery: <strong>90 Days</strong></span>
               </div>
               <div class="progress" style="height: 10px; border-radius: 5px;">
-                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${{min(100, int((deal.days_elapsed / 30) * 100))}}%;" aria-valuenow="${{deal.days_elapsed}}" aria-valuemin="0" aria-valuemax="30"></div>
+                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${{Math.min(100, Math.round(((deal.days_elapsed || 14) / 30) * 100))}}%;" aria-valuenow="${{deal.days_elapsed || 14}}" aria-valuemin="0" aria-valuemax="30"></div>
               </div>
             </div>
 
