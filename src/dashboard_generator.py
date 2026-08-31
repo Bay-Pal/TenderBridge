@@ -926,12 +926,12 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
           <!-- Channel Selector Nav Pills -->
           <ul class="nav nav-pills nav-fill bg-white p-1 rounded-3 shadow-sm border mb-3" id="pitchChannelTabs" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active fw-bold py-2 text-success" id="tab-whatsapp-btn" data-bs-toggle="pill" data-bs-target="#tab-whatsapp-pane" type="button" role="tab">
+              <button class="nav-link active pitch-tab-whatsapp py-2" id="tab-whatsapp-btn" data-bs-toggle="pill" data-bs-target="#tab-whatsapp-pane" type="button" role="tab">
                 <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp Message
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link fw-bold py-2 text-primary" id="tab-email-btn" data-bs-toggle="pill" data-bs-target="#tab-email-pane" type="button" role="tab">
+              <button class="nav-link pitch-tab-email py-2" id="tab-email-btn" data-bs-toggle="pill" data-bs-target="#tab-email-pane" type="button" role="tab">
                 <i class="fa-solid fa-envelope me-1"></i> Email Quotation
               </button>
             </li>
@@ -1617,6 +1617,41 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
     .scope-box {{ background-color: #f8fafc; border: 1px solid #f1f5f9; }}
     .trade-box {{ background-color: #f0f9ff; border: 1px solid #e0f2fe; }}
 
+    /* 1-Click Outreach Hub Nav Pills Contrast */
+    .pitch-tab-whatsapp {{
+      color: #166534 !important;
+      font-weight: 700;
+      border-radius: 8px !important;
+      transition: all 0.15s ease-in-out;
+      background: transparent;
+    }}
+    .pitch-tab-whatsapp.active {{
+      background-color: #16a34a !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+    }}
+    .pitch-tab-whatsapp:hover:not(.active) {{
+      background-color: #dcfce7 !important;
+      color: #14532d !important;
+    }}
+
+    .pitch-tab-email {{
+      color: #1e40af !important;
+      font-weight: 700;
+      border-radius: 8px !important;
+      transition: all 0.15s ease-in-out;
+      background: transparent;
+    }}
+    .pitch-tab-email.active {{
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }}
+    .pitch-tab-email:hover:not(.active) {{
+      background-color: #dbeafe !important;
+      color: #1e3a8a !important;
+    }}
+
     .toast-popup {{
       position: fixed;
       bottom: 24px;
@@ -2088,47 +2123,23 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
               </div>
             </div>
 
-            <!-- Action buttons: 1-Click Outreach Hub Modal + Quick Actions -->
-            <div class="d-flex flex-column flex-sm-row flex-wrap gap-2 w-100 w-md-auto">
-              <button class="btn btn-success btn-sm fw-bold px-3 py-2 shadow-sm flex-grow-1 flex-md-grow-0" onclick="openPitchModal('whatsapp')">
+            <!-- Action buttons: 1-Click Outreach Hub + PDF + HS Codes -->
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-success btn-sm fw-bold px-3 py-2 shadow-sm" onclick="openPitchModal('whatsapp')">
                 <i class="fa-solid fa-paper-plane me-1"></i> Contact & Pitch Hub
               </button>
-              <div class="d-flex gap-2 flex-grow-1 flex-md-grow-0">
-                <button class="btn btn-primary btn-sm fw-bold px-2 px-md-3 py-2 shadow-sm flex-fill" onclick="openPitchModal('email')">
-                  <i class="fa-solid fa-envelope me-1"></i> Email
-                </button>
-                <button class="btn btn-dark btn-sm fw-bold px-2 px-md-3 py-2 shadow-sm flex-fill" onclick="copyDealPitch()">
-                  <i class="fa-solid fa-copy me-1"></i> Copy
-                </button>
-                <button class="btn btn-outline-light btn-sm fw-semibold px-2 px-md-3 py-2 flex-fill" onclick="exportExecutivePDF()">
-                  <i class="fa-solid fa-file-pdf me-1 text-danger"></i> PDF
-                </button>
-                <button class="btn btn-outline-info btn-sm fw-semibold px-2 px-md-3 py-2 flex-fill" data-bs-toggle="modal" data-bs-target="#${{lead.hs_modal_id}}">
-                  <i class="fa-solid fa-barcode me-1"></i> HS Codes
-                </button>
-              </div>
+              <button class="btn btn-outline-light btn-sm fw-semibold px-3 py-2" onclick="exportExecutivePDF()">
+                <i class="fa-solid fa-file-pdf me-1 text-danger"></i> PDF
+              </button>
+              <button class="btn btn-outline-info btn-sm fw-semibold px-3 py-2" data-bs-toggle="modal" data-bs-target="#${{lead.hs_modal_id}}">
+                <i class="fa-solid fa-barcode me-1"></i> HS Codes
+              </button>
             </div>
           </div>
         </div>
 
         <div class="p-3 p-md-4 bg-light">
           
-          <!-- Month 0 Urgency Deal Radar Alert Banner -->
-          <div class="card p-3 border-0 shadow-sm rounded-3 mb-3 mb-md-4 bg-white border-start border-danger border-4">
-            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-2">
-              <div class="d-flex flex-wrap align-items-center gap-2">
-                <span class="badge ${{deal.pulse_badge || 'bg-danger'}} fw-bold small cursor-pointer" onclick="showTimingCalculation(event, ${{idx}})" title="Click to view calculation breakdown">${{deal.status_tag}} <i class="fa-solid fa-circle-info ms-1"></i></span>
-                <h6 class="fw-bold text-dark mb-0">${{deal.stage}}</h6>
-              </div>
-              <button class="btn btn-sm btn-outline-danger py-1 px-2 fw-semibold text-decoration-none flex-shrink-0" onclick="showTimingCalculation(event, ${{idx}})">
-                <i class="fa-solid fa-calculator me-1"></i> View Math Breakdown
-              </button>
-            </div>
-            <p class="text-secondary small mb-0 lh-base">
-              ${{deal.stage_desc}} Current import route is <strong>${{lead.sourcing_countries}}</strong> via <strong>${{lead.primary_port}}</strong>. Pitch OEM factory alternative before contract commitments lock.
-            </p>
-          </div>
-
           <!-- Section 1: 4 Aligned KPI Cards -->
           <div class="row g-2 g-md-3 mb-3 mb-md-4">
             <div class="col-6 col-md-3">
@@ -2145,112 +2156,112 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
             </div>
             <div class="col-6 col-md-3">
               <div class="kpi-card text-center p-2 p-md-3 rounded-3 bg-white shadow-sm border">
-                <div class="kpi-val text-success ${{lead.award_val_class}}">${{lead.kpi_award_val}}</div>
-                <div class="kpi-lbl">TENDER AWARD VALUE</div>
+                <div class="kpi-val text-warning text-truncate">${{lead.top_port_clean}}</div>
+                <div class="kpi-lbl">PRIMARY ENTRY PORT</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
               <div class="kpi-card text-center p-2 p-md-3 rounded-3 bg-white shadow-sm border">
-                <div class="kpi-val text-danger">${{lead.score_val}}%</div>
-                <div class="kpi-lbl">BUYER MATCH SCORE</div>
+                <div class="kpi-val text-success">${{lead.primary_partner}}</div>
+                <div class="kpi-lbl">PRIMARY ORIGIN HUB</div>
               </div>
             </div>
           </div>
 
-          <!-- Section 2: Interactive OEM Landed Cost & Margin Arbitrage Calculator -->
-          <div class="card p-3 border-0 rounded-3 bg-white shadow-sm mb-3 mb-md-4 border-top border-success border-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+          <!-- Section 2: Margin Arbitrage Calculator -->
+          <div class="card p-3 p-md-4 border-0 shadow-sm rounded-3 mb-3 mb-md-4 bg-white">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3">
               <div>
-                <span class="badge bg-success-subtle text-success fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.5px;">
-                  <i class="fa-solid fa-calculator me-1"></i> OEM Landed Cost Arbitrage & Margin Engine
-                </span>
-                <h6 class="fw-bold text-dark mb-0 mt-1">${{deal.oem_sku || 'Direct Factory Pricing Displacement'}}</h6>
+                <span class="badge bg-primary px-2 mb-1">OEM Margin Disruption Engine</span>
+                <h6 class="fw-bold text-dark mb-0">Direct Factory Price vs Incumbent Landed Cost</h6>
               </div>
-              <span class="badge bg-success small px-2 py-1"><i class="fa-solid fa-arrow-trend-up me-1"></i> Live Arbitrage</span>
+              <span class="badge bg-success-subtle text-success fw-bold px-3 py-1">Instant Margin Arbitrage</span>
             </div>
 
-            <div class="row g-3 align-items-center mb-3">
-              <div class="col-md-6">
-                <div class="d-flex justify-content-between small fw-bold text-secondary mb-1">
-                  <span>Contract Lot Volume:</span>
-                  <span class="text-primary font-monospace" id="calcUnitsDisplay">${{Number(currentUnits).toLocaleString()}} Pcs</span>
+            <div class="p-3 bg-light rounded-3 mb-3 border">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-7">
+                  <div class="small fw-bold text-dark mb-1">Target Procurement SKU:</div>
+                  <div class="fw-semibold text-primary font-monospace small" id="calcSkuName">${{deal.oem_sku}}</div>
                 </div>
-                <input type="range" class="form-range" id="calcUnitsSlider" min="5000" max="500000" step="5000" value="${{currentUnits}}" oninput="updateMarginCalculations()"/>
-                <div class="d-flex justify-content-between text-muted" style="font-size: 0.68rem;">
-                  <span>5K min</span>
-                  <span>250K</span>
-                  <span>500K max</span>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="d-flex justify-content-between small fw-bold text-secondary mb-1">
-                  <span>Target OEM Cost Advantage:</span>
-                  <span class="text-success font-monospace" id="calcDiscountDisplay">${{currentDiscount}}% Lower Landed Cost</span>
-                </div>
-                <input type="range" class="form-range" id="calcDiscountSlider" min="10" max="35" step="1" value="${{currentDiscount}}" oninput="updateMarginCalculations()"/>
-                <div class="d-flex justify-content-between text-muted" style="font-size: 0.68rem;">
-                  <span>-10%</span>
-                  <span>-20% standard</span>
-                  <span>-35% high volume</span>
+                <div class="col-md-5">
+                  <label class="small text-secondary fw-semibold mb-1">Container Order Units:</label>
+                  <input type="number" id="calcUnitsInput" class="form-control form-control-sm font-monospace" value="${{deal.default_units}}" oninput="recalcMargin()" />
                 </div>
               </div>
             </div>
 
-            <!-- Responsive 2x2 (Mobile) / 4-Col (Desktop) Margin Summary Tiles -->
-            <div class="row g-2 text-center pt-2 border-top">
+            <div class="row g-2 text-center small mb-3">
               <div class="col-6 col-md-3">
-                <div class="p-2 rounded-2 bg-light border h-100 d-flex flex-column justify-content-center">
-                  <div class="text-muted small fw-bold mb-1" style="font-size: 0.68rem;">INCUMBENT CIF</div>
-                  <div class="fw-bold text-danger" id="calcIncumbentCost" style="font-size: 1.1rem;">$${{incumbentCost.toFixed(2)}}</div>
+                <div class="p-2 rounded-2 bg-light border">
+                  <div class="text-secondary" style="font-size: 0.72rem;">INCUMBENT CIF</div>
+                  <div class="fw-bold text-danger fs-6" id="calcIncumbentCost">$${{deal.incumbent_cost}}</div>
                 </div>
               </div>
               <div class="col-6 col-md-3">
-                <div class="p-2 rounded-2 bg-light border h-100 d-flex flex-column justify-content-center">
-                  <div class="text-muted small fw-bold mb-1" style="font-size: 0.68rem;">OUR OEM FACTORY</div>
-                  <div class="fw-bold text-success" id="calcOemCost" style="font-size: 1.1rem;">$${{oemCost}}</div>
+                <div class="p-2 rounded-2 bg-light border">
+                  <div class="text-secondary" style="font-size: 0.72rem;">OUR OEM CIF</div>
+                  <div class="fw-bold text-success fs-6" id="calcOemCost">$${{deal.oem_cost}}</div>
                 </div>
               </div>
               <div class="col-6 col-md-3">
-                <div class="p-2 rounded-2 bg-light border h-100 d-flex flex-column justify-content-center">
-                  <div class="text-muted small fw-bold mb-1" style="font-size: 0.68rem;">UNIT SAVINGS</div>
-                  <div class="fw-bold text-primary" id="calcUnitSavings" style="font-size: 1.1rem;">-$${{unitSavings}}</div>
+                <div class="p-2 rounded-2 bg-light border">
+                  <div class="text-secondary" style="font-size: 0.72rem;">UNIT SAVINGS</div>
+                  <div class="fw-bold text-primary fs-6" id="calcUnitSavings">-$${{deal.savings_per_unit}} (${{deal.savings_pct}}%)</div>
                 </div>
               </div>
               <div class="col-6 col-md-3">
-                <div class="p-2 rounded-2 bg-success text-white h-100 d-flex flex-column justify-content-center">
-                  <div class="small fw-bold mb-1" style="font-size: 0.68rem; opacity: 0.95;">EXTRA PROFIT</div>
-                  <div class="fw-bold" id="calcTotalMargin" style="font-size: 1.1rem;">+$${{Number(totalMarginGain).toLocaleString()}} USD</div>
+                <div class="p-2 rounded-2 bg-success-subtle border border-success-subtle">
+                  <div class="text-success fw-bold" style="font-size: 0.72rem;">BUYER MARGIN GAIN</div>
+                  <div class="fw-bold text-success fs-6" id="calcTotalMargin">+$${{Number(deal.total_margin_gain).toLocaleString()}} USD</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Section 3: Supply Cycle Timeline Strip -->
-          <div class="p-3 rounded-3 bg-white shadow-sm border mb-3 mb-md-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <span class="text-uppercase text-muted fw-bold small" style="font-size: 0.72rem; letter-spacing: 0.5px;">
-                <i class="fa-solid fa-timeline text-primary me-1"></i> Procurement & Supply Cycle Timeline
-              </span>
-              <span class="badge bg-success-subtle text-success small fw-semibold">Active Window</span>
+          <!-- Section 3: Live Interactive Sourcing Timeline -->
+          <div class="card p-3 p-md-4 border-0 shadow-sm rounded-3 mb-3 mb-md-4 bg-white">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3">
+              <div>
+                <span class="badge bg-secondary px-2 mb-1">90-Day Sea-to-Overland Logistics Timeline</span>
+                <h6 class="fw-bold text-dark mb-0">Container Transit Milestones & Advance Deposit Cutoff</h6>
+              </div>
+              <button class="btn btn-sm btn-outline-danger py-1 px-2 fw-semibold" onclick="showTimingCalculation(event, ${{idx}})">
+                <i class="fa-solid fa-clock-rotate-left me-1"></i> Audit Math
+              </button>
             </div>
-            
-            <div class="row text-center g-2 py-1">
-              <div class="col-6 col-md-3 border-end">
-                <div class="text-muted small mb-1" style="font-size: 0.72rem;">Open / Awarded</div>
-                <div class="fw-bold text-dark small">${{timeline.award_date || '24 Jan 2026'}}</div>
+
+            <!-- Visual Progress Bar -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small text-secondary mb-1">
+                <span>Award Date: <strong>${{deal.award_date_str}}</strong></span>
+                <span class="text-danger fw-bold">Deposit Window: <strong>${{deal.deadline_str}} (Month 0)</strong></span>
+                <span>Port Delivery: <strong>90 Days</strong></span>
               </div>
-              <div class="col-6 col-md-3 border-end">
-                <div class="text-muted small mb-1" style="font-size: 0.72rem;">Last Shipment Date</div>
-                <div class="fw-bold text-primary small">${{timeline.last_shipment || '19 Feb 2026'}}</div>
+              <div class="progress" style="height: 10px; border-radius: 5px;">
+                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${{min(100, int((deal.days_elapsed / 30) * 100))}}%;" aria-valuenow="${{deal.days_elapsed}}" aria-valuemin="0" aria-valuemax="30"></div>
               </div>
-              <div class="col-6 col-md-3 border-end">
-                <div class="text-muted small mb-1" style="font-size: 0.72rem;">Delivery Deadline</div>
-                <div class="fw-bold text-dark small">${{timeline.deadline || '24 Apr 2026'}}</div>
+            </div>
+
+            <!-- 3 Logistics Milestone Cards -->
+            <div class="row g-2 small">
+              <div class="col-md-4">
+                <div class="p-2 rounded-2 bg-light border h-100">
+                  <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-anchor text-primary me-1"></i> Sea Freight (Dar es Salaam)</div>
+                  <div class="text-secondary" style="font-size: 0.75rem;">30–35 days ocean container transit from Mumbai/Guangzhou to Dar es Salaam Port.</div>
+                </div>
               </div>
-              <div class="col-6 col-md-3">
-                <div class="text-muted small mb-1" style="font-size: 0.72rem;">OEM Pitch Window</div>
-                <div class="fw-bold text-danger small">${{timeline.call_window || 'Active Now'}}</div>
+              <div class="col-md-4">
+                <div class="p-2 rounded-2 bg-light border h-100">
+                  <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-truck-moving text-warning me-1"></i> Overland Transit (Songwe)</div>
+                  <div class="text-secondary" style="font-size: 0.75rem;">12–15 days bonded carrier trucking through Tanzania corridor to Songwe Border.</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-2 rounded-2 bg-light border h-100">
+                  <div class="fw-bold text-dark mb-1"><i class="fa-solid fa-warehouse text-success me-1"></i> Final Delivery (Lilongwe)</div>
+                  <div class="text-secondary" style="font-size: 0.75rem;">Final MRA customs clearance and direct intake at CMST Central Medical Stores.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -2326,8 +2337,8 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                       <i class="fa-solid fa-phone text-muted me-1"></i> <a href="tel:+${{cleanPhone}}" class="text-decoration-none text-dark">${{directPhone}}</a>
                     </div>
                   </div>
-                  <div class="pt-2 mt-2 border-top d-flex gap-2">
-                    <a href="tel:+${{cleanPhone}}" class="btn btn-outline-dark btn-sm flex-fill py-1 fw-semibold" style="font-size: 0.75rem;">
+                  <div class="pt-2 mt-2 border-top">
+                    <a href="tel:+${{cleanPhone}}" class="btn btn-outline-dark btn-sm w-100 py-1 fw-semibold" style="font-size: 0.75rem;">
                       <i class="fa-solid fa-phone me-1 text-primary"></i> Direct Call
                     </a>
                   </div>
@@ -2354,12 +2365,9 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
                       <i class="fa-brands fa-whatsapp text-success me-1"></i> <span class="fw-bold text-dark">${{directPhone}}</span> (WhatsApp)
                     </div>
                   </div>
-                  <div class="pt-2 mt-2 border-top d-flex gap-2">
-                    <button class="btn btn-success btn-sm flex-fill py-1 fw-semibold" onclick="openPitchModal('whatsapp')" style="font-size: 0.75rem;">
-                      <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp
-                    </button>
-                    <button class="btn btn-outline-success btn-sm flex-fill py-1 fw-semibold" onclick="openPitchModal('email')" style="font-size: 0.75rem;">
-                      <i class="fa-solid fa-envelope me-1"></i> Email Quote
+                  <div class="pt-2 mt-2 border-top">
+                    <button class="btn btn-success btn-sm w-100 py-1 fw-bold shadow-sm" onclick="openPitchModal('whatsapp')" style="font-size: 0.75rem;">
+                      <i class="fa-solid fa-paper-plane me-1"></i> Contact & Pitch Hub
                     </button>
                   </div>
                 </div>
