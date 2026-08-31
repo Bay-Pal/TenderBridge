@@ -1835,9 +1835,11 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
     }}
 
     function copyPitch(company, product, sourcing) {{
-      const text = `Hi, I noticed ${{company}} was recently awarded a supply contract for ${{product}}. We are a direct OEM medical equipment & clinical consumable manufacturer. We see your current supply route is ${{sourcing}}, and we can provide 15% lower landed costs delivered directly to your border with faster factory lead times. Would you be open to a quick 3-minute call this week?`;
+      const genericCats = getGenericCategories(product, '');
+      const hubs = getNaturalSourcingHubs(sourcing);
+      const text = `Hi, hope you are well. Reaching out because we specialize in manufacturing high-quality medical consumables and surgical supplies (including ${{genericCats}}). Given ${{company}}'s strong distribution across healthcare facilities in the region, we can help streamline your supply chain across ${{hubs}} with direct-from-manufacturer CIF pricing to optimize your margins. Are you open to a brief 5-minute introductory call next week to see how our catalog compares to your current suppliers?`;
       navigator.clipboard.writeText(text).then(() => {{
-        showToast(`Copied pitch for ${{company}}!`);
+        showToast(`Copied consultative pitch for ${{company}}!`);
       }});
     }}
 
