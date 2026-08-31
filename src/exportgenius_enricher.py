@@ -759,13 +759,16 @@ def compute_deal_engine(lead, trade_data, idx):
     portfolio_short = ", ".join(portfolio_list[:3])
     sourcing_hubs = format_natural_sourcing_hubs(lead.get("sourcing_countries", ""))
 
-    # 3. High-Converting, Consultative B2B Outreach Message (Image 2 Replica)
+    # 3. High-Converting, Consultative B2B Outreach Message (Image 2 Replica with WhatsApp formatting)
     whatsapp_pitch = (
-        f"Hi {proc_name}, hope you are well. Reaching out because we specialize in manufacturing high-quality "
-        f"medical consumables and surgical supplies (including {portfolio_short}). Given {comp_name}'s strong distribution "
-        f"across critical care facilities in Malawi, we can help streamline your supply chain with direct-from-manufacturer "
-        f"CIF pricing to {port} to optimize your margins. Are you open to a brief 5-minute introductory call next week "
-        f"to see how our catalog and pricing compare to your current suppliers?"
+        f"Hi *{proc_name}*, hope you are well! 👋\n\n"
+        f"I am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *{portfolio_short}*).\n\n"
+        f"Given *{comp_name}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n"
+        f"• *Direct Factory CIF Pricing* to *{port}* (to optimize your contract margins)\n"
+        f"• *Consolidated Sourcing* across your high-volume consumable lines\n"
+        f"• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\n"
+        f"Are you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\n"
+        f"Best regards,\n*OEM Global Sourcing Directorate*"
     )
 
     import urllib.parse

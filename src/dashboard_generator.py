@@ -2351,7 +2351,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       return hubs.slice(0, -1).join(', ') + ', and ' + hubs[hubs.length - 1];
     }}
 
-    // WhatsApp Pitch Launcher (Consultative outreach matching Image 2)
+    // WhatsApp Pitch Launcher (Consultative outreach matching Image 2 with WhatsApp bolding & line breaks)
     function openWhatsAppPitch() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
@@ -2360,10 +2360,10 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const contacts = lead.contacts || (deal.contacts || {{}});
       const cleanPhone = contacts.direct_phone_clean || lead.direct_phone_clean || '';
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Procurement Director';
-      const port = lead.primary_port || 'border';
+      const port = lead.primary_port || 'Songwe Border';
       const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
 
-      const msg = `Hi ${{procName}}, hope you are well. Reaching out because we specialize in manufacturing high-quality medical consumables and surgical supplies (including ${{genericCats}}). Given ${{lead.company}}'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with direct-from-manufacturer CIF pricing to ${{port}} to optimize your margins. Are you open to a brief 5-minute introductory call next week to see how our catalog and pricing compare to your current suppliers?`;
+      const msg = `Hi *${{procName}}*, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *${{genericCats}}*).\n\nGiven *${{lead.company}}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* to *${{port}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
 
       let url = '';
       if (cleanPhone) {{
@@ -2395,7 +2395,7 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       window.location.href = mailtoUrl;
     }}
 
-    // Copy Deal Pitch to Clipboard (Consultative message)
+    // Copy Deal Pitch to Clipboard (Consultative message with WhatsApp formatting)
     function copyDealPitch() {{
       const lead = LEADS_DATA[activeLeadIndex];
       if (!lead) return;
@@ -2403,13 +2403,13 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
       const deal = lead.deal_engine || {{}};
       const contacts = lead.contacts || (deal.contacts || {{}});
       const procName = contacts.procurement_lead || lead.procurement_lead || 'Team';
-      const port = lead.primary_port || 'border';
+      const port = lead.primary_port || 'Songwe Border';
       const genericCats = getGenericCategories(lead.products || '', lead.top_hs_codes || '');
 
-      const msg = `Hi ${{procName}}, hope you are well. Reaching out because we specialize in manufacturing high-quality medical consumables and surgical supplies (including ${{genericCats}}). Given ${{lead.company}}'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with direct-from-manufacturer CIF pricing to ${{port}} to optimize your margins. Are you open to a brief 5-minute introductory call next week to see how our catalog and pricing compare to your current suppliers?`;
+      const msg = `Hi *${{procName}}*, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical instruments* (including *${{genericCats}}*).\n\nGiven *${{lead.company}}*'s strong distribution across critical care facilities in Malawi, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* to *${{port}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog and pricing compare to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
 
       navigator.clipboard.writeText(msg).then(() => {{
-        showToast(`Copied consultative pitch for ${{lead.company}}!`);
+        showToast(`Copied formatted pitch for ${{lead.company}}!`);
       }});
     }}
 
