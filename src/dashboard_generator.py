@@ -1837,9 +1837,9 @@ def generate_html_dashboard(leads_csv="data/unified_leads_output.csv", output_ht
     function copyPitch(company, product, sourcing) {{
       const genericCats = getGenericCategories(product, '');
       const hubs = getNaturalSourcingHubs(sourcing);
-      const text = `Hi, hope you are well. Reaching out because we specialize in manufacturing high-quality medical consumables and surgical supplies (including ${{genericCats}}). Given ${{company}}'s strong distribution across healthcare facilities in the region, we can help streamline your supply chain across ${{hubs}} with direct-from-manufacturer CIF pricing to optimize your margins. Are you open to a brief 5-minute introductory call next week to see how our catalog compares to your current suppliers?`;
+      const text = `Hi, hope you are well! 👋\n\nI am reaching out because we specialize in manufacturing and supplying high-quality *medical consumables and surgical supplies* (including *${{genericCats}}*).\n\nGiven *${{company}}*'s strong distribution across healthcare facilities in the region, we can help streamline your supply chain with:\n\n• *Direct Factory CIF Pricing* across *${{hubs}}* (to optimize your contract margins)\n• *Consolidated Sourcing* across your high-volume consumable lines\n• *Full International Compliance* (CE, ISO 13485, WHO-PQS certified)\n\nAre you open to a brief *5-minute introductory call* next week to see how our catalog compares to your current suppliers?\n\nBest regards,\n*OEM Global Sourcing Directorate*`;
       navigator.clipboard.writeText(text).then(() => {{
-        showToast(`Copied consultative pitch for ${{company}}!`);
+        showToast(`Copied formatted pitch for ${{company}}!`);
       }});
     }}
 
